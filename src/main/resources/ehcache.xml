@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <!--<diskStore path="java.io.tmpdir" />-->
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToLiveSeconds="86400"
+            overflowToDisk="false" />
+
+    <!--timeToIdleSeconds="3600"-->
+    <!-- railway缓存 -->
+    <cache name="railwayCache"
+           maxElementsInMemory="10000"
+           timeToLiveSeconds="86400"
+           eternal="false"
+           overflowToDisk="false"/>
+
+    <!-- 授权缓存 -->
+    <cache name="authorizationCache"
+           maxElementsInMemory="10000"
+           timeToLiveSeconds="86400"
+           eternal="false"
+           overflowToDisk="false"/>
+
+    <!-- session缓存 -->
+    <cache name="sessionCache"
+           maxElementsInMemory="10000"
+           timeToLiveSeconds="86400"
+           eternal="false"
+           overflowToDisk="false"/>
+</ehcache>

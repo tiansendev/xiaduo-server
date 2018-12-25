@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.SysUserRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.UserRoleInfo">
+        <result column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="user_mobile" property="userMobile" />
+        <result column="user_code" property="userCode" />
+        <result column="user_avatar" property="userAvatar" />
+        <result column="user_gender" property="userGender" />
+        <result column="user_age" property="userAge" />
+        <result column="user_status" property="userStatus" />
+        <collection property="sysRole" javaType="java.util.ArrayList" ofType="com.tiansen.ordermanager.mybatis.entity.SysRole">
+            <result column="role_id" property="id" />
+            <result column="role_name" property="roleName" />
+            <result column="role_status" property="roleStatus" />
+            <result column="menu_ids" property="menuIds" />
+            <result column="role_remark" property="roleRemark" />
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, role_id, create_date, update_date
+    </sql>
+
+    <select id="findUserRolesByUserId" resultMap="BaseResultMap">
+        SELECT u.*, r.id AS role_id, r.role_name, r.role_status, r.menu_ids, r.role_remark
+        FROM sys_user u
+        LEFT JOIN sys_user_role ur ON ur.user_id = u.id
+        LEFT JOIN sys_role r ON ur.role_id = r.id
+        WHERE ur.user_id=#{userid}
+    </select>
+
+    <select id="findAllUserRoles" resultMap="BaseResultMap">
+        SELECT u.*, r.id AS role_id, r.role_name, r.role_status, r.menu_ids, r.role_remark
+        FROM sys_user u
+        LEFT JOIN sys_user_role ur ON ur.user_id = u.id
+        LEFT JOIN sys_role r ON ur.role_id = r.id
+        <where>
+            <if test="condMap.user_name != null">u.user_name=#{condMap.user_name}</if>
+            <if test="condMap.user_code != null">u.user_code=#{condMap.user_code}</if>
+            <if test="condMap.user_gender != null">u.user_gender=#{condMap.user_gender}</if>
+            <if test="condMap.user_mobile != null">u.user_mobile=#{condMap.user_mobile}</if>
+        </where>
+    </select>
+
+    <insert id="insertBatch">
+        INSERT INTO sys_user_role(user_id, role_id, create_date)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.userId,jdbcType=INTEGER},#{item.roleId,jdbcType=INTEGER},#{item.createDate,jdbcType=DATE})
+        </foreach>
+    </insert>
+</mapper>

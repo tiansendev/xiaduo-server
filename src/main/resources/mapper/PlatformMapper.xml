@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.PlatformMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.Platform">
+        <id column="id" property="id" />
+        <result column="pla_name" property="plaName" />
+        <result column="plat_responsible_man" property="platResponsibleMan" />
+        <result column="plat_mobile" property="platMobile" />
+        <result column="plat_remark" property="platRemark" />
+        <result column="plat_creator_id" property="platCreatorId" />
+        <result column="plat_createtime" property="platCreatetime" />
+        <result column="plat_updatetime" property="platUpdatetime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pla_name, plat_responsible_man, plat_mobile, plat_remark, plat_creator_id, plat_createtime, plat_updatetime
+    </sql>
+
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.CombinationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.Combination">
+        <id column="id" property="id" />
+        <result column="comb_name" property="combName" />
+        <result column="comb_prod_ids" property="combProdIds" />
+        <result column="comb_box_num" property="combBoxNum" />
+        <result column="comb_remark" property="combRemark" />
+        <result column="comb_creator_id" property="combCreatorId" />
+        <result column="comb_createtime" property="combCreatetime" />
+        <result column="comb_updatetime" property="combUpdatetime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, comb_name, comb_prod_ids, comb_box_num, comb_remark, comb_creator_id, comb_createtime, comb_updatetime
+    </sql>
+
+</mapper>

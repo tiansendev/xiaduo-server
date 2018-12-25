@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.SysRoleAccessMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.SysRoleAccessInfo">
+        <id column="id" property="id" />
+        <association property="sysRole" javaType="com.tiansen.ordermanager.mybatis.entity.SysRole">
+            <result column="r_id" property="id" />
+            <result column="role_name" property="roleName" />
+            <result column="role_status" property="roleStatus" />
+            <result column="menu_ids" property="menuIds" />
+            <result column="role_remark" property="roleRemark" />
+        </association>
+        <association property="sysAccess" javaType="com.tiansen.ordermanager.mybatis.entity.SysAccess">
+            <result column="a_id" property="id" />
+            <result column="acc_requrl" property="accRequrl" />
+            <result column="acc_method" property="accMethod" />
+            <result column="acc_disp" property="accDisp" />
+            <result column="acc_module_disp" property="accDisp" />
+        </association>
+    </resultMap>
+
+    <resultMap id="SingleRoleAccessesMap" type="com.tiansen.ordermanager.mybatis.entity.SingleRoleAccessesInfo">
+        <result column="id" property="id" />
+        <result column="role_name" property="roleName" />
+        <result column="role_status" property="roleStatus" />
+        <result column="menu_ids" property="menuIds" />
+        <result column="role_remark" property="roleRemark" />
+        <collection property="sysAccess" javaType="java.util.ArrayList" ofType="com.tiansen.ordermanager.mybatis.entity.SysAccess">
+            <result column="access_id" property="id" />
+            <result column="acc_requrl" property="accRequrl" />
+            <result column="acc_method" property="accMethod" />
+            <result column="acc_disp" property="accDisp" />
+            <result column="acc_module_disp" property="accDisp" />
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_id, access_id, create_date, update_date
+    </sql>
+
+    <select id="findAllSysRoleAccessInfos" resultMap="BaseResultMap">
+        SELECT ra.*, r.id AS r_id, r.role_name, r.role_status, r.menu_ids, r.role_remark, a.id AS a_id, a.acc_requrl, a.acc_method, a.acc_disp, a.acc_module_disp
+        FROM sys_role_access ra
+        LEFT JOIN sys_role r ON ra.role_id = r.id
+        LEFT JOIN sys_access a ON ra.access_id = a.id
+    </select>
+
+    <select id="findAllSysRoleAccessInfosByRoleIds" resultMap="BaseResultMap">
+        SELECT ra.*, r.id AS r_id, r.role_name, r.role_status, r.menu_ids, r.role_remark, a.id AS a_id, a.acc_requrl, a.acc_method, a.acc_disp, a.acc_module_disp
+        FROM sys_role_access ra
+        LEFT JOIN sys_role r ON ra.role_id = r.id
+        LEFT JOIN sys_access a ON ra.access_id = a.id
+        WHERE ra.role_id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="findSysRoleAccessInfosByRoleId" resultMap="SingleRoleAccessesMap">
+    SELECT r.*, a.id AS access_id, a.acc_requrl, a.acc_method, a.acc_disp, a.acc_module_disp
+    FROM sys_role r
+    LEFT JOIN  sys_role_access ra ON ra.role_id = r.id
+    LEFT JOIN sys_access a ON ra.access_id = a.id
+    WHERE r.id=#{roleid}
+    </select>
+
+    <insert id="insertBatch">
+        INSERT INTO sys_role_access(role_id, access_id, update_date)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.roleId,jdbcType=INTEGER},#{item.accessId,jdbcType=INTEGER},#{item.createDate,jdbcType=DATE})
+        </foreach>
+    </insert>
+</mapper>
