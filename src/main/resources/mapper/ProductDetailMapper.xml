@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.ProductDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.ProductDetail">
+        <id column="id" property="id" />
+        <result column="pddef_id" property="pddefId" />
+        <result column="prod_status" property="prodStatus" />
+        <result column="pur_id" property="purId" />
+        <result column="store_id" property="storeId" />
+        <result column="express_id" property="expressId" />
+        <result column="creator_id" property="creatorId" />
+        <result column="prod_remark" property="prodRemark" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pddef_id, prod_status, pur_id, store_id, express_id, creator_id, prod_remark, create_date, update_date
+    </sql>
+
+</mapper>

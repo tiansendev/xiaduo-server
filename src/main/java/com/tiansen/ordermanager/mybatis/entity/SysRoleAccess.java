@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * 企业角色权限表
  * </p>
  *
- * @author rylai
+ * @author tiansen
  * @since 2018-11-16
  */
 @Data

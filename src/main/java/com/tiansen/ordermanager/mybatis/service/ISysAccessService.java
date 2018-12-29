@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * 模块权限 服务类
  * </p>
  *
- * @author rylai
+ * @author tiansen
  * @since 2018-11-16
  */
 @Repository("sysAccessService")

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author rylai
- * @since 2018-12-25
+ * @since 2018-12-30
  */
 public interface ExpressMapper extends BaseMapper<Express> {
 

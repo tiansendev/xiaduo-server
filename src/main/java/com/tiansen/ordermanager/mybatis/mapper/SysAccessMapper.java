@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * 模块权限 Mapper 接口
  * </p>
  *
- * @author rylai
+ * @author tiansen
  * @since 2018-11-16
  */
 @Repository

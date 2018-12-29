@@ -8,7 +8,7 @@ import com.tiansen.ordermanager.mybatis.entity.SysRoleAccess;
  * 企业角色权限表 服务类
  * </p>
  *
- * @author rylai
+ * @author tiansen
  * @since 2018-11-16
  */
 public interface ISysRoleAccessService extends IService<SysRoleAccess> {

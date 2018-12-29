@@ -8,7 +8,7 @@ import com.tiansen.ordermanager.mybatis.entity.SysUserRole;
  * 用户角色 服务类
  * </p>
  *
- * @author rylai
+ * @author tiansen
  * @since 2018-11-16
  */
 public interface ISysUserRoleService extends IService<SysUserRole> {

@@ -1,6 +1,6 @@
 package com.tiansen.ordermanager.mybatis.service;
 
-import com.tiansen.ordermanager.mybatis.entity.Platform;
+import com.tiansen.ordermanager.mybatis.entity.Supplier;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author rylai
- * @since 2018-12-25
+ * @since 2018-12-30
  */
-public interface IPlatformService extends IService<Platform> {
+public interface ISupplierService extends IService<Supplier> {
 
 }

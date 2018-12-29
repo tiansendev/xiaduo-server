@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author rylai
- * @since 2018-12-25
+ * @since 2018-12-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,8 +24,8 @@ public class Express extends Model<Express> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.INPUT)
-    private String id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 收件人
@@ -52,6 +52,8 @@ public class Express extends Model<Express> {
      */
     private String expOrderCode;
 
+    private String expDescription;
+
     /**
      * 备注
      */
@@ -60,17 +62,17 @@ public class Express extends Model<Express> {
     /**
      * 创建时间
      */
-    private Date expCreatetime;
+    private Date createDate;
 
     /**
      * 更新时间
      */
-    private Date expUpdatetime;
+    private Date updateDate;
 
     /**
      * 创建人
      */
-    private Integer expCreatorId;
+    private Integer creatorId;
 
 
     public static final String ID = "id";
@@ -85,13 +87,15 @@ public class Express extends Model<Express> {
 
     public static final String EXP_ORDER_CODE = "exp_order_code";
 
+    public static final String EXP_DESCRIPTION = "exp_description";
+
     public static final String EXP_REMARK = "exp_remark";
 
-    public static final String EXP_CREATETIME = "exp_createtime";
+    public static final String CREATE_DATE = "create_date";
 
-    public static final String EXP_UPDATETIME = "exp_updatetime";
+    public static final String UPDATE_DATE = "update_date";
 
-    public static final String EXP_CREATOR_ID = "exp_creator_id";
+    public static final String CREATOR_ID = "creator_id";
 
     @Override
     protected Serializable pkVal() {

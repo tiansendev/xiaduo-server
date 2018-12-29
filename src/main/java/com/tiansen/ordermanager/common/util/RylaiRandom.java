@@ -9,7 +9,7 @@ public class RylaiRandom
 	private static String baseNum = "0123456789";  
 	private static String baseHex="0123456789abcdef";
 	/**
-	 * rylai 获取纯数字字符串
+	 * tiansen 获取纯数字字符串
 	 * @param length
 	 * @return
 	 */
@@ -23,7 +23,7 @@ public class RylaiRandom
 	    return sb.toString();  
 	 } 
 	/**
-	 * rylai HexStr
+	 * tiansen HexStr
 	 * @param length
 	 * @return
 	 */
@@ -39,7 +39,7 @@ public class RylaiRandom
 	    return sb.toString();  
 	 } 
 	/**
-	 * rylai 获取0-9 a-z字符串
+	 * tiansen 获取0-9 a-z字符串
 	 * @param length
 	 * @return
 	 */

@@ -22,8 +22,8 @@ import java.util.List;
  * @since 2018-09-12
  */
 public class MysqlGenerator {
-    public final static String[] allTables=new String[]{"sys_access","sys_menu","sys_role","sys_role_access","sys_user","sys_user_role",
-            "combination","express","order","platform", "product"};
+    public final static String[] allTables=new String[]{/*"sys_access","sys_menu","sys_role","sys_role_access","sys_user","sys_user_role",*/
+           "combination","express","order","proposer", "purchase","store","supplier","product_detail","product_definition"};
 
     /**
      * RUN THIS
@@ -91,8 +91,7 @@ public class MysqlGenerator {
         });
         cfg.setFileOutConfigList(focList);
         TemplateConfig templateConfig = new TemplateConfig();
-        templateConfig.setController(null);//不生成Controller
-        templateConfig.setXml(null);
+//        templateConfig.setController(null);//不生成Controller
         // tc.setController("...");
 //        templateConfig.setEntity("...");
         // tc.setMapper("...");

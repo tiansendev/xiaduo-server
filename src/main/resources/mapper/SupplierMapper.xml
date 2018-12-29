@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.SupplierMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.Supplier">
+        <id column="id" property="id" />
+        <result column="sup_name" property="supName" />
+        <result column="sup_addr" property="supAddr" />
+        <result column="sup_contact_person" property="supContactPerson" />
+        <result column="sup_contact_number" property="supContactNumber" />
+        <result column="sup_contact_email" property="supContactEmail" />
+        <result column="creator_id" property="creatorId" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sup_name, sup_addr, sup_contact_person, sup_contact_number, sup_contact_email, creator_id, create_date, update_date
+    </sql>
+
+</mapper>

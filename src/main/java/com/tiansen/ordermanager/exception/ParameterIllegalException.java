@@ -1,7 +1,7 @@
 package com.tiansen.ordermanager.exception;
 
 /**
- * @author Rylai
+ * @author tiansen
  */
 public class ParameterIllegalException extends RuntimeException {
 

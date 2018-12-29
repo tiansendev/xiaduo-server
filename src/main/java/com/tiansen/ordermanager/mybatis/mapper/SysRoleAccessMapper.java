@@ -13,7 +13,7 @@ import java.util.List;
  * 企业角色权限表 Mapper 接口
  * </p>
  *
- * @author rylai
+ * @author tiansen
  * @since 2018-11-16
  */
 @Repository

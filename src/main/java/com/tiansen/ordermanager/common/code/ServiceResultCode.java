@@ -22,6 +22,8 @@ public enum ServiceResultCode {
      */
     USER_PASSWORD_ERR("301101", "用户名或密码错误"),
     USER_HAD_EXIST("301104", "用户已经存在"),
+
+    INPUT_EXCEL_ERRO("301105", "上传文件格式有误");
     ;
 
     private String code;

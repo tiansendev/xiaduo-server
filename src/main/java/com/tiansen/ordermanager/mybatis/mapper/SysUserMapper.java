@@ -12,7 +12,7 @@ import java.util.List;
  * 用户 Mapper 接口
  * </p>
  *
- * @author rylai
+ * @author tiansen
  * @since 2018-11-16
  */
 @Repository

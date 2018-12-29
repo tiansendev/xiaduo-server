@@ -15,27 +15,27 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author rylai
- * @since 2018-12-25
+ * @since 2018-12-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Product extends Model<Product> {
+public class ProductDefinition extends Model<ProductDefinition> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.INPUT)
-    private String id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 产品名称
      */
-    private String prodName;
+    private String defName;
 
     /**
      * 产品货号
      */
-    private String prodNo;
+    private String defNo;
 
     /**
      * 产品规格
@@ -43,32 +43,39 @@ public class Product extends Model<Product> {
     private String prodSpec;
 
     /**
+     * 产品图片
+     */
+    private String defImgUrl;
+
+    /**
      * 备注
      */
-    private String prodRemark;
+    private String defRemark;
 
-    private Integer prodCreatorId;
+    private Integer creatorId;
 
-    private Date prodCreatetime;
+    private Date createDate;
 
-    private Date prodUpdatetime;
+    private Date updateDate;
 
 
     public static final String ID = "id";
 
-    public static final String PROD_NAME = "prod_name";
+    public static final String DEF_NAME = "def_name";
 
-    public static final String PROD_NO = "prod_no";
+    public static final String DEF_NO = "def_no";
 
     public static final String PROD_SPEC = "prod_spec";
 
-    public static final String PROD_REMARK = "prod_remark";
+    public static final String DEF_IMG_URL = "def_img_url";
 
-    public static final String PROD_CREATOR_ID = "prod_creator_id";
+    public static final String DEF_REMARK = "def_remark";
 
-    public static final String PROD_CREATETIME = "prod_createtime";
+    public static final String CREATOR_ID = "creator_id";
 
-    public static final String PROD_UPDATETIME = "prod_updatetime";
+    public static final String CREATE_DATE = "create_date";
+
+    public static final String UPDATE_DATE = "update_date";
 
     @Override
     protected Serializable pkVal() {
