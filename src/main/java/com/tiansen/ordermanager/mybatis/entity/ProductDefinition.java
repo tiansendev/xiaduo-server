@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author rylai
- * @since 2018-12-30
+ * @since 2019-01-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,27 +30,27 @@ public class ProductDefinition extends Model<ProductDefinition> {
     /**
      * 产品名称
      */
-    private String defName;
+    private String prodDefName;
 
     /**
      * 产品货号
      */
-    private String defNo;
+    private String prodDefNo;
 
     /**
      * 产品规格
      */
-    private String prodSpec;
+    private String prodDefSpec;
 
     /**
      * 产品图片
      */
-    private String defImgUrl;
+    private String prodDefImgUrl;
 
     /**
      * 备注
      */
-    private String defRemark;
+    private String prodDefRemark;
 
     private Integer creatorId;
 
@@ -61,15 +61,15 @@ public class ProductDefinition extends Model<ProductDefinition> {
 
     public static final String ID = "id";
 
-    public static final String DEF_NAME = "def_name";
+    public static final String PROD_DEF_NAME = "prod_def_name";
 
-    public static final String DEF_NO = "def_no";
+    public static final String PROD_DEF_NO = "prod_def_no";
 
-    public static final String PROD_SPEC = "prod_spec";
+    public static final String PROD_DEF_SPEC = "prod_def_spec";
 
-    public static final String DEF_IMG_URL = "def_img_url";
+    public static final String PROD_DEF_IMG_URL = "prod_def_img_url";
 
-    public static final String DEF_REMARK = "def_remark";
+    public static final String PROD_DEF_REMARK = "prod_def_remark";
 
     public static final String CREATOR_ID = "creator_id";
 

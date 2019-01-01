@@ -1,6 +1,6 @@
 package com.tiansen.ordermanager.mybatis.mapper;
 
-import com.tiansen.ordermanager.mybatis.entity.ProductDefinition;
+import com.tiansen.ordermanager.mybatis.entity.ConsumableDefinition;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author rylai
  * @since 2019-01-01
  */
-public interface ProductDefinitionMapper extends BaseMapper<ProductDefinition> {
+public interface ConsumableDefinitionMapper extends BaseMapper<ConsumableDefinition> {
 
 }

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author rylai
- * @since 2018-12-30
+ * @since 2019-01-01
  */
 public interface CombinationMapper extends BaseMapper<Combination> {
 

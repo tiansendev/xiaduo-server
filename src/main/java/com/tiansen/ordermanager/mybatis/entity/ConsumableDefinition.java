@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 采购
+ * 
  * </p>
  *
  * @author rylai
@@ -20,59 +20,43 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Purchase extends Model<Purchase> {
+public class ConsumableDefinition extends Model<ConsumableDefinition> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 编号
-     */
-    private String purCode;
+    private String conDefName;
 
-    /**
-     * 采购总价
-     */
-    private Double purTotalMoney;
+    private String conDefCode;
 
-    /**
-     * 供应商id
-     */
-    private Integer supplierId;
+    private String conDefImgUrl;
 
-    /**
-     * 采购日期
-     */
-    private Date purDate;
-
-    private String purRemark;
+    private String conDefRemark;
 
     private Integer creatorId;
 
-    private Date createDate;
-
     private Date updateDate;
+
+    private Date createDate;
 
 
     public static final String ID = "id";
 
-    public static final String PUR_CODE = "pur_code";
+    public static final String CON_DEF_NAME = "con_def_name";
 
-    public static final String PUR_TOTAL_MONEY = "pur_total_money";
+    public static final String CON_DEF_CODE = "con_def_code";
 
-    public static final String SUPPLIER_ID = "supplier_id";
+    public static final String CON_DEF_IMG_URL = "con_def_img_url";
 
-    public static final String PUR_DATE = "pur_date";
-
-    public static final String PUR_REMARK = "pur_remark";
+    public static final String CON_DEF_REMARK = "con_def_remark";
 
     public static final String CREATOR_ID = "creator_id";
 
-    public static final String CREATE_DATE = "create_date";
-
     public static final String UPDATE_DATE = "update_date";
+
+    public static final String CREATE_DATE = "create_date";
 
     @Override
     protected Serializable pkVal() {

@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author rylai
- * @since 2018-12-30
+ * @since 2019-01-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -42,15 +42,19 @@ public class ProductDetail extends Model<ProductDetail> {
      */
     private Integer purId;
 
+    private Double purPrice;
+
     /**
      * 仓库id
      */
     private Integer storeId;
 
     /**
-     * 快递id
+     * 订单id
      */
-    private Integer expressId;
+    private Integer orderId;
+
+    private Double salePrice;
 
     private Integer creatorId;
 
@@ -69,9 +73,13 @@ public class ProductDetail extends Model<ProductDetail> {
 
     public static final String PUR_ID = "pur_id";
 
+    public static final String PUR_PRICE = "pur_price";
+
     public static final String STORE_ID = "store_id";
 
-    public static final String EXPRESS_ID = "express_id";
+    public static final String ORDER_ID = "order_id";
+
+    public static final String SALE_PRICE = "sale_price";
 
     public static final String CREATOR_ID = "creator_id";
 

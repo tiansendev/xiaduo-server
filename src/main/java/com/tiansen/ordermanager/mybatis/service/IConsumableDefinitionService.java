@@ -1,6 +1,6 @@
 package com.tiansen.ordermanager.mybatis.service;
 
-import com.tiansen.ordermanager.mybatis.entity.Proposer;
+import com.tiansen.ordermanager.mybatis.entity.ConsumableDefinition;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author rylai
  * @since 2019-01-01
  */
-public interface IProposerService extends IService<Proposer> {
+public interface IConsumableDefinitionService extends IService<ConsumableDefinition> {
 
 }

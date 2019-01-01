@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * @since 2019-01-01
  */
 @Controller
-@RequestMapping("/product-definition")
-public class ProductDefinitionController {
+@RequestMapping("/consumable-definition")
+public class ConsumableDefinitionController {
 
 }

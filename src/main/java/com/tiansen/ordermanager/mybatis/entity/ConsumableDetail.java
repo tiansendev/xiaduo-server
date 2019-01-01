@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * 耗材
  * </p>
  *
  * @author rylai
@@ -20,45 +20,23 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Order extends Model<Order> {
+public class ConsumableDetail extends Model<ConsumableDetail> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 订单日期
-     */
-    private String odDate;
+    private Integer conDefId;
 
-    /**
-     * 组合id
-     */
-    private Integer odCombId;
+    private Integer purId;
 
-    /**
-     * 组数
-     */
-    private Integer odCombNum;
+    private Integer orderId;
 
-    /**
-     * 合数
-     */
-    private Integer odBoxNum;
+    private Integer storeId;
 
-    /**
-     * 申请人
-     */
-    private Integer propId;
+    private String conRemark;
 
-    private Integer consumId;
-
-    private String odRemark;
-
-    /**
-     * 创建人
-     */
     private Integer creatorId;
 
     private Date createDate;
@@ -68,19 +46,15 @@ public class Order extends Model<Order> {
 
     public static final String ID = "id";
 
-    public static final String OD_DATE = "od_date";
+    public static final String CON_DEF_ID = "con_def_id";
 
-    public static final String OD_COMB_ID = "od_comb_id";
+    public static final String PUR_ID = "pur_id";
 
-    public static final String OD_COMB_NUM = "od_comb_num";
+    public static final String ORDER_ID = "order_id";
 
-    public static final String OD_BOX_NUM = "od_box_num";
+    public static final String STORE_ID = "store_id";
 
-    public static final String PROP_ID = "prop_id";
-
-    public static final String CONSUM_ID = "consum_id";
-
-    public static final String OD_REMARK = "od_remark";
+    public static final String CON_REMARK = "con_remark";
 
     public static final String CREATOR_ID = "creator_id";
 

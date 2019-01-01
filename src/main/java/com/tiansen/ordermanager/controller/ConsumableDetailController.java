@@ -7,14 +7,14 @@ import org.springframework.stereotype.Controller;
 
 /**
  * <p>
- *  前端控制器
+ * 耗材 前端控制器
  * </p>
  *
  * @author rylai
  * @since 2019-01-01
  */
 @Controller
-@RequestMapping("/product-definition")
-public class ProductDefinitionController {
+@RequestMapping("/consumable-detail")
+public class ConsumableDetailController {
 
 }
