@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author rylai
- * @since 2019-01-01
+ * @since 2019-01-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -52,7 +52,7 @@ public class Order extends Model<Order> {
      */
     private Integer propId;
 
-    private Integer consumId;
+    private String consumIds;
 
     private String odRemark;
 
@@ -78,7 +78,7 @@ public class Order extends Model<Order> {
 
     public static final String PROP_ID = "prop_id";
 
-    public static final String CONSUM_ID = "consum_id";
+    public static final String CONSUM_IDS = "consum_ids";
 
     public static final String OD_REMARK = "od_remark";
 

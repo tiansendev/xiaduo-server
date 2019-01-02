@@ -10,7 +10,7 @@
         <result column="od_comb_num" property="odCombNum" />
         <result column="od_box_num" property="odBoxNum" />
         <result column="prop_id" property="propId" />
-        <result column="consum_id" property="consumId" />
+        <result column="consum_ids" property="consumIds" />
         <result column="od_remark" property="odRemark" />
         <result column="creator_id" property="creatorId" />
         <result column="create_date" property="createDate" />
@@ -19,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, od_date, od_comb_id, od_comb_num, od_box_num, prop_id, consum_id, od_remark, creator_id, create_date, update_date
+        id, od_date, od_comb_id, od_comb_num, od_box_num, prop_id, consum_ids, od_remark, creator_id, create_date, update_date
     </sql>
 
 </mapper>
