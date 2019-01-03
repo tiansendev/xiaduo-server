@@ -4,6 +4,7 @@ package com.tiansen.ordermanager.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * @author rylai
  * @since 2019-01-02
  */
-@Controller
+@RestController
 @RequestMapping("/product-detail")
 public class ProductDetailController {
 

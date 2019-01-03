@@ -2,6 +2,7 @@ package com.tiansen.ordermanager.mybatis.mapper;
 
 import com.tiansen.ordermanager.mybatis.entity.Purchase;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tiansen.ordermanager.mybatis.entity.join.PurchaseDetail;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface PurchaseMapper extends BaseMapper<Purchase> {
 
+    PurchaseDetail findDetailById(Integer id);
 }

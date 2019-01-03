@@ -12,5 +12,4 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2019-01-02
  */
 public interface IProductDefinitionService extends IService<ProductDefinition> {
-
 }

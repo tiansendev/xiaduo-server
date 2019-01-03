@@ -36,7 +36,7 @@ public class Proposer extends Model<Proposer> {
     /**
      * 申请人性质：0：平台 1：个人
      */
-    private String propProperty;
+    private Integer propProperty;
 
     private String propRemark;
 

@@ -15,9 +15,29 @@
         <result column="update_date" property="updateDate" />
     </resultMap>
 
+    <resultMap id="DetailResultMap" type="com.tiansen.ordermanager.mybatis.entity.join.PurchaseDetail" extends="BaseResultMap">
+        <association property="supplier_id" javaType="com.tiansen.ordermanager.mybatis.entity.Supplier">
+            <id column="sup_id" property="id" />
+            <result column="sup_name" property="supName" />
+            <result column="sup_addr" property="supAddr" />
+            <result column="sup_contact_person" property="supContactPerson" />
+            <result column="sup_contact_number" property="supContactNumber" />
+            <result column="sup_contact_email" property="supContactEmail" />
+        </association>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, pur_code, pur_total_money, supplier_id, pur_date, pur_remark, creator_id, create_date, update_date
     </sql>
+
+    <select id="findDetailById" resultMap="DetailResultMap">
+      SELECT pur.*,
+        sup.id AS sup_id, sup.sup_name, sup.sup_addr, sup.sup_contact_email, sup.sup_contact_number, sup.sup_contact_person
+      FROM purchase pur
+      LEFT JOIN supplier sup
+      ON pur.supplier_id=sup.id
+      WHERE id=#{id}
+    </select>
 
 </mapper>

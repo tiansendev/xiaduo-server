@@ -106,7 +106,7 @@ public class CombinationController {
 
     @ApiOperation(value = "查看详情", notes = "条件查询")
     @RequestMapping(value = "", method = RequestMethod.PUT)
-    public ServiceResult update(@RequestBody Combination combination, @PathVariable("id")Integer id) throws Exception {
+    public ServiceResult update(@RequestBody Combination combination) throws Exception {
         if (combination == null || combination.getId() == null)
             throw new ParameterIllegalException();
         iCombinationService.updateById(combination);

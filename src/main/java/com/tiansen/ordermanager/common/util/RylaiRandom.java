@@ -1,5 +1,8 @@
 package com.tiansen.ordermanager.common.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 import java.util.UUID;
 
@@ -51,7 +54,7 @@ public class RylaiRandom
 	        sb.append(baseNum.charAt(number));  
 	    }  
 	    return sb.toString();  
-	 } 
+	 }
 	
 	public static byte[] getRandomByte(int length) { //length��ʾ�����ַ����ĳ���
 	    return getRandomString(length).getBytes();  
@@ -59,4 +62,20 @@ public class RylaiRandom
 	public static String getUUid(){
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
+
+	public static String genOrderNo() {
+		DateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+		Calendar calendar = Calendar.getInstance();
+		String dateName = df.format(calendar.getTime());
+
+		Random ne=new Random();//实例化一个random的对象ne
+		int x = ne.nextInt(999-100+1)+100;//为变量赋随机值100-999
+		String random_order = String.valueOf(x);
+		String order_id = dateName+random_order;
+		return order_id;
+	}
+
+//	public static void main(String[] args) {
+//		System.out.println("order no: " + genOrderNo());
+//	}
 }
