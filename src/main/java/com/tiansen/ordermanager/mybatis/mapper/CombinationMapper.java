@@ -2,6 +2,7 @@ package com.tiansen.ordermanager.mybatis.mapper;
 
 import com.tiansen.ordermanager.mybatis.entity.Combination;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tiansen.ordermanager.mybatis.entity.join.CombinationDetail;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface CombinationMapper extends BaseMapper<Combination> {
 
+    CombinationDetail findDetailById(Integer id);
 }

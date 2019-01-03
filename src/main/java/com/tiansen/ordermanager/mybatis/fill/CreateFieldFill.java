@@ -16,7 +16,7 @@ public class CreateFieldFill {
     public static void fill(Object obj, String creatorPropertyName,String datePropertyName){
         try {
             Class c = obj.getClass();
-            SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();;
+            SysUser sysUser = (SysUser)SecurityUtils.getSubject().getPrincipal();
             Field fcreator = c.getDeclaredField(creatorPropertyName);
             Field fdate = c.getDeclaredField(datePropertyName);
             fcreator.setAccessible(true);

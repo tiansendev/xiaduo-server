@@ -30,7 +30,6 @@ public class OrderController {
     private IOrderService iOrderService;
 
     @ApiOperation(value = "添加仓库", notes = "添加仓库")
-    @ApiImplicitParam(name = "assetsstore", value = "仓库实体，一级仓库无需SuperId，仓库名称，仓库位置，备注需要前端填写，其它服务器自动生成,需管理员权限", required = true, dataType = "Assetsstore", paramType = "body")
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ServiceResult addAssetsStore(@RequestParam("file") MultipartFile file) throws Exception {
         iOrderService.addModel(file);

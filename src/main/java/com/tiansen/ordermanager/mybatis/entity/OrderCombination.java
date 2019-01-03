@@ -11,65 +11,55 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * 订单-组合中间表
  * </p>
  *
  * @author rylai
- * @since 2019-01-02
+ * @since 2019-01-03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Order extends Model<Order> {
+public class OrderCombination extends Model<OrderCombination> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 订单日期
-     */
-    private String odDate;
+    private Integer odId;
+
+    private Integer combId;
 
     /**
-     * 合数
+     * 组合数量
      */
-    private Integer odBoxNum;
+    private Integer combNum;
 
-    /**
-     * 申请人
-     */
-    private Integer propId;
+    private String remak;
 
+    private Date updateDate;
 
-    private String odRemark;
-
-    /**
-     * 创建人
-     */
     private Integer creatorId;
 
     private Date createDate;
 
-    private Date updateDate;
-
 
     public static final String ID = "id";
 
-    public static final String OD_DATE = "od_date";
+    public static final String OD_ID = "od_id";
 
-    public static final String OD_BOX_NUM = "od_box_num";
+    public static final String COMB_ID = "comb_id";
 
-    public static final String PROP_ID = "prop_id";
+    public static final String COMB_NUM = "comb_num";
 
-    public static final String OD_REMARK = "od_remark";
+    public static final String REMAK = "remak";
+
+    public static final String UPDATE_DATE = "update_date";
 
     public static final String CREATOR_ID = "creator_id";
 
     public static final String CREATE_DATE = "create_date";
-
-    public static final String UPDATE_DATE = "update_date";
 
     @Override
     protected Serializable pkVal() {

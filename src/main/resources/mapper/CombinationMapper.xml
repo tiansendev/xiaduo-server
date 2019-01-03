@@ -13,9 +13,47 @@
         <result column="update_date" property="updateDate" />
     </resultMap>
 
+    <!--<resultMap id="DetailResultMap" type="com.tiansen.ordermanager.mybatis.entity.join.CombinationDetail" extends="BaseResultMap">-->
+        <!--<collection property="prod_def_ids" ofType="java.util.List" javaType="com.tiansen.ordermanager.mybatis.entity.ProductDefinition">-->
+            <!--<id column="prod_def_id" property="id" />-->
+            <!--<result column="prod_def_name" property="prodDefName" />-->
+            <!--<result column="prod_def_no" property="prodDefNo" />-->
+            <!--<result column="prod_def_spec" property="prodDefSpec" />-->
+            <!--<result column="prod_def_img_url" property="prodDefImgUrl" />-->
+            <!--<result column="prod_def_remark" property="prodDefRemark" />-->
+            <!--&lt;!&ndash;<result column="creator_id" property="creatorId" />&ndash;&gt;-->
+            <!--&lt;!&ndash;<result column="create_date" property="createDate" />&ndash;&gt;-->
+            <!--&lt;!&ndash;<result column="update_date" property="updateDate" />&ndash;&gt;-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, comb_name, prod_def_ids, comb_remark, creator_id, create_date, update_date
     </sql>
+
+    <!--<select id="findDetailById" resultMap="DetailResultMap">-->
+        <!--&lt;!&ndash; 调用存储过程 &ndash;&gt;-->
+        <!--<include refid="split" />-->
+        <!--SELECT comb.*, pdf.id AS prod_def_id, pdf.prod_def_name, pdf.prod_def_no, pdf.prod_def_spec, pdf.prod_def_img_url,-->
+        <!--pdf.prod_def_remark-->
+        <!--FROM combination comb-->
+        <!--LEFT JOIN product_definition pdf ON pdf.id IN-->
+        <!--<include refid="idsArray" />-->
+        <!--WHERE comb.id=#{id}-->
+    <!--</select>-->
+
+    <!--<sql id="split">-->
+        <!--SET SQL_SAFE_UPDATES=0;&lt;!&ndash;-->
+        <!--<include refid="callSplit" />&ndash;&gt;-->
+    <!--</sql>-->
+
+    <!--<select id="callSplit" statementType="CALLABLE">-->
+        <!--{call splitIds('1,2,4', ",")}-->
+    <!--</select>-->
+
+    <!--<sql id="idsArray">-->
+        <!--(select * from temp_split_table)-->
+    <!--</sql>-->
 
 </mapper>

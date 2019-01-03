@@ -15,39 +15,24 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author rylai
- * @since 2019-01-02
+ * @since 2019-01-03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Order extends Model<Order> {
+public class OrderExpress extends Model<OrderExpress> {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
 
-    /**
-     * 订单日期
-     */
-    private String odDate;
+    private Integer odId;
 
-    /**
-     * 合数
-     */
-    private Integer odBoxNum;
+    private Integer expId;
 
-    /**
-     * 申请人
-     */
-    private Integer propId;
+    private String remark;
 
-
-    private String odRemark;
-
-    /**
-     * 创建人
-     */
     private Integer creatorId;
 
     private Date createDate;
@@ -57,13 +42,11 @@ public class Order extends Model<Order> {
 
     public static final String ID = "id";
 
-    public static final String OD_DATE = "od_date";
+    public static final String OD_ID = "od_id";
 
-    public static final String OD_BOX_NUM = "od_box_num";
+    public static final String EXP_ID = "exp_id";
 
-    public static final String PROP_ID = "prop_id";
-
-    public static final String OD_REMARK = "od_remark";
+    public static final String REMARK = "remark";
 
     public static final String CREATOR_ID = "creator_id";
 

@@ -35,7 +35,7 @@ public class Combination extends Model<Combination> {
     /**
      * 产品定义list
      */
-    private String prodDefIds;
+    private Object[] prodDefIds;
 
     private String combRemark;
 

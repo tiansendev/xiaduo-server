@@ -23,7 +23,8 @@ import java.util.List;
  */
 public class MysqlGenerator {
     public final static String[] allTables=new String[]{/*"sys_access","sys_menu","sys_role","sys_role_access","sys_user","sys_user_role",*/
-           "consumable_definition","consumable_detail","combination","express","order","proposer", "purchase","store","supplier","product_detail","product_definition"};
+           /*"consumable_definition","consumable_detail","combination","express","order","proposer", "purchase","store","supplier","product_detail","product_definition"*/
+    "order_express","order_combination", "order_consumable"};
 
     /**
      * RUN THIS

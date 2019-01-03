@@ -169,7 +169,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                         new QueryWrapper<Combination>()
                                 .eq(Combination.COMB_NAME, combName));
                 if (comb != null) {
-                    order.setOdCombId(comb.getId());
+//                    order.setOdCombId(comb.getId());
                 } else {
                     Combination combination = new Combination();
                     combination.setCombName(combName);

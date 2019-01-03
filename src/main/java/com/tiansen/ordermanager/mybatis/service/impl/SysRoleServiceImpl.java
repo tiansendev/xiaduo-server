@@ -24,7 +24,7 @@ import java.util.List;
  * 角色 服务实现类
  * </p>
  *
- * @author tiansen
+ * @author rylai
  * @since 2018-11-16
  */
 @Service
@@ -38,6 +38,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Autowired
     private SysMenuMapper sysMenuMapper;
+
+    @Autowired
+    private SysRoleMapper sysRoleMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -184,14 +187,15 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
 
         // 更新role
-        updateById(sysRole);
+//        updateById(sysRole);
+        sysRoleMapper.updateRoleById(sysRole);
 
         // 修改角色权限信息
         if (sysRole.getAccessIds() != null && sysRole.getAccessIds().size() > 0){
-            // TODO: 18-11-28 不可以编辑admin
-            if ("admin".equals(sysRole.getRoleName())) {
-                throw new ParameterIllegalException("admin为超级管理员，权限不可编辑");
-            }
+//            // TODO: 18-11-28 不可以编辑admin
+//            if ("admin".equals(sysRole.getRoleName())) {
+//                throw new ParameterIllegalException("admin为超级管理员，权限不可编辑");
+//            }
             // 修改前的ids
             List<Integer> orignIds = new ArrayList<>();
             List<SysRoleAccess> orignSysRoleAccesses

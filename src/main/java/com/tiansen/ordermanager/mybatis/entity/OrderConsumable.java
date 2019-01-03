@@ -15,61 +15,48 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author rylai
- * @since 2019-01-02
+ * @since 2019-01-03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Order extends Model<Order> {
+public class OrderConsumable extends Model<OrderConsumable> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 订单日期
-     */
-    private String odDate;
+    private Integer odId;
 
-    /**
-     * 合数
-     */
-    private Integer odBoxNum;
+    private Integer consId;
 
-    /**
-     * 申请人
-     */
-    private Integer propId;
+    private String remark;
 
-
-    private String odRemark;
-
-    /**
-     * 创建人
-     */
     private Integer creatorId;
 
     private Date createDate;
 
     private Date updateDate;
 
+    private String orderConsumablecol;
+
 
     public static final String ID = "id";
 
-    public static final String OD_DATE = "od_date";
+    public static final String OD_ID = "od_id";
 
-    public static final String OD_BOX_NUM = "od_box_num";
+    public static final String CONS_ID = "cons_id";
 
-    public static final String PROP_ID = "prop_id";
-
-    public static final String OD_REMARK = "od_remark";
+    public static final String REMARK = "remark";
 
     public static final String CREATOR_ID = "creator_id";
 
     public static final String CREATE_DATE = "create_date";
 
     public static final String UPDATE_DATE = "update_date";
+
+    public static final String ORDER_CONSUMABLECOL = "order_consumablecol";
 
     @Override
     protected Serializable pkVal() {
