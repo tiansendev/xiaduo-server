@@ -7,6 +7,7 @@ import com.tiansen.ordermanager.common.util.PoiUtils;
 import com.tiansen.ordermanager.exception.BusinessException;
 import com.tiansen.ordermanager.exception.ParameterIllegalException;
 import com.tiansen.ordermanager.mybatis.entity.*;
+import com.tiansen.ordermanager.mybatis.entity.join.order.OrderReq;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
 import com.tiansen.ordermanager.mybatis.mapper.*;
 import com.tiansen.ordermanager.mybatis.service.IOrderService;
@@ -322,6 +323,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 //                erroMessage.add(jsonObject);
 //            }
 //        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void addOrder(OrderReq orderReq) {
+        if (orderReq == null) {
+            throw new ParameterIllegalException();
+        }
+        List<Integer> combIds = orderReq.getCombIds();
+        List<Integer> consumIds = orderReq.getConsumIds();
+        Express express = orderReq.getExpress();
+        if (combIds != null) {
+            // 组合信息
+        }
     }
 
     /**

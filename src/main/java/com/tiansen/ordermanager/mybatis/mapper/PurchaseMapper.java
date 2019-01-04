@@ -2,7 +2,7 @@ package com.tiansen.ordermanager.mybatis.mapper;
 
 import com.tiansen.ordermanager.mybatis.entity.Purchase;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tiansen.ordermanager.mybatis.entity.join.PurchaseDetail;
+import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseDetail;
 
 /**
  * <p>

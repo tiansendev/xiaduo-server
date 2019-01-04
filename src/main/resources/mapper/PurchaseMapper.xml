@@ -15,7 +15,7 @@
         <result column="update_date" property="updateDate" />
     </resultMap>
 
-    <resultMap id="DetailResultMap" type="com.tiansen.ordermanager.mybatis.entity.join.PurchaseDetail" extends="BaseResultMap">
+    <resultMap id="DetailResultMap" type="com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseDetail" extends="BaseResultMap">
         <association property="supplier_id" javaType="com.tiansen.ordermanager.mybatis.entity.Supplier">
             <id column="sup_id" property="id" />
             <result column="sup_name" property="supName" />

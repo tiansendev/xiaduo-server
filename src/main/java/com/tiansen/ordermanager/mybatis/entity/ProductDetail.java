@@ -48,6 +48,10 @@ public class ProductDetail extends Model<ProductDetail> {
      * 仓库id
      */
     private Integer storeId;
+    /**
+     * 库位
+     */
+    private String storeLoc;
 
     /**
      * 订单id

@@ -2,7 +2,8 @@ package com.tiansen.ordermanager.mybatis.service;
 
 import com.tiansen.ordermanager.mybatis.entity.Purchase;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.tiansen.ordermanager.mybatis.entity.join.PurchaseDetail;
+import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseDetail;
+import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseReq;
 
 /**
  * <p>
@@ -15,4 +16,6 @@ import com.tiansen.ordermanager.mybatis.entity.join.PurchaseDetail;
 public interface IPurchaseService extends IService<Purchase> {
 
     PurchaseDetail getDetailById(Integer id);
+
+    void addPurchase(PurchaseReq purchase);
 }

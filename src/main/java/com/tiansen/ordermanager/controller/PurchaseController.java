@@ -8,6 +8,7 @@ import com.tiansen.ordermanager.common.util.RylaiRandom;
 import com.tiansen.ordermanager.exception.ParameterIllegalException;
 import com.tiansen.ordermanager.mybatis.entity.Purchase;
 import com.tiansen.ordermanager.mybatis.entity.emun.PropPropertyEmun;
+import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseReq;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
 import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
 import com.tiansen.ordermanager.mybatis.fill.UpdateFieldFill;
@@ -43,12 +44,8 @@ public class PurchaseController {
 
     @ApiOperation(value = "添加")
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ServiceResult add(@RequestBody Purchase purchase) throws Exception {
-        if (purchase == null)
-            throw  new ParameterIllegalException("参数不合法");
-        CreateFieldFill.fill(purchase);
-        purchase.setPurCode(RylaiRandom.genOrderNo());
-        iPurchaseService.save(purchase);
+    public ServiceResult add(@RequestBody PurchaseReq purchase) throws Exception {
+        iPurchaseService.addPurchase(purchase);
         return ServiceResult.success();
     }
 

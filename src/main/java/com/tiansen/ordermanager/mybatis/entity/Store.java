@@ -33,9 +33,13 @@ public class Store extends Model<Store> {
     private String stoName;
 
     /**
-     * 仓库位置
+     * 库位
      */
-    private String stoLocation;
+    private Object[] stoLocations;
+    /**
+     * 仓库地址
+     */
+    private String stoAddress;
 
     /**
      * 仓库管理员ids：[1, 2]
@@ -58,7 +62,9 @@ public class Store extends Model<Store> {
 
     public static final String STO_NAME = "sto_name";
 
-    public static final String STO_LOCATION = "sto_location";
+    public static final String STO_LOCATIONS = "sto_locations";
+
+    public static final String STO_ADDRESS = "sto_address";
 
     public static final String STO_MANANGERS = "sto_manangers";
 

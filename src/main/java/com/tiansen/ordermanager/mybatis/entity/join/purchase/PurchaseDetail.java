@@ -1,4 +1,4 @@
-package com.tiansen.ordermanager.mybatis.entity.join;
+package com.tiansen.ordermanager.mybatis.entity.join.purchase;
 
 import com.tiansen.ordermanager.mybatis.entity.Purchase;
 import com.tiansen.ordermanager.mybatis.entity.Supplier;

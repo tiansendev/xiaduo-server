@@ -10,7 +10,6 @@ import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
 import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
 import com.tiansen.ordermanager.mybatis.fill.UpdateFieldFill;
 import com.tiansen.ordermanager.mybatis.service.IExpressService;
-import com.tiansen.ordermanager.mybatis.service.IExpressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ import java.util.List;
  * @since 2019-01-02
  */
 @RestController
-@Api(tags = {"消费品定义API接口"})
+@Api(tags = {"快递API接口"})
 @RequestMapping("/express")
 public class ExpressController {
 

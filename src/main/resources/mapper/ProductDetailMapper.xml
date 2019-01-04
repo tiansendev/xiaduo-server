@@ -5,22 +5,118 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.ProductDetail">
         <id column="id" property="id" />
-        <result column="pddef_id" property="pddefId" />
+        <!--<result column="pddef_id" property="pddefId" />-->
         <result column="prod_status" property="prodStatus" />
-        <result column="pur_id" property="purId" />
+        <!--<result column="pur_id" property="purId" />-->
         <result column="pur_price" property="purPrice" />
-        <result column="store_id" property="storeId" />
-        <result column="order_id" property="orderId" />
+        <!--<result column="store_id" property="storeId" />-->
+        <!--<result column="order_id" property="orderId" />-->
         <result column="sale_price" property="salePrice" />
+        <result column="store_loc" property="storeLoc" />
         <result column="creator_id" property="creatorId" />
         <result column="prod_remark" property="prodRemark" />
         <result column="create_date" property="createDate" />
         <result column="update_date" property="updateDate" />
     </resultMap>
 
+    <resultMap id="ProductDetailInfoMap" type="com.tiansen.ordermanager.mybatis.entity.join.ProductDetailInfo" extends="BaseResultMap">
+        <association property="productDefinition" javaType="com.tiansen.ordermanager.mybatis.entity.ProductDefinition">
+            <id column="pdfid" property="id" />
+            <result column="prod_def_name" property="prodDefName" />
+            <result column="prod_def_no" property="prodDefNo" />
+            <result column="prod_def_spec" property="prodDefSpec" />
+            <result column="prod_def_img_url" property="prodDefImgUrl" />
+            <result column="prod_def_remark" property="prodDefRemark" />
+        </association>
+        <association property="purchase" javaType="com.tiansen.ordermanager.mybatis.entity.Purchase">
+            <id column="purid" property="id" />
+            <result column="pur_code" property="purCode" />
+            <result column="pur_total_money" property="purTotalMoney" />
+            <result column="supplier_id" property="supplierId" />
+            <result column="pur_date" property="purDate" />
+            <result column="pur_remark" property="purRemark" />
+        </association>
+        <association property="store" javaType="com.tiansen.ordermanager.mybatis.entity.Store">
+            <id column="storeid" property="id" />
+            <result column="sto_locations" property="stoLocations" />
+            <result column="sto_address" property="stoAddress" />
+            <result column="sto_manangers" property="stoManangers" />
+            <result column="sto_remark" property="stoRemark" />
+        </association>
+        <association property="order" javaType="com.tiansen.ordermanager.mybatis.entity.Order">
+            <id column="orderid" property="id" />
+            <result column="od_date" property="odDate" />
+            <result column="od_box_num" property="odBoxNum" />
+            <result column="prop_id" property="propId" />
+            <result column="od_remark" property="odRemark" />
+        </association>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, pddef_id, prod_status, pur_id, pur_price, store_id, order_id, sale_price, creator_id, prod_remark, create_date, update_date
     </sql>
+
+    <select id="findByCondPage" resultMap="ProductDetailInfoMap">
+        SELECT prod.*,
+        pdf.id AS pdfid, pdf.prod_def_name, pdf.prod_def_no, pdf.prod_def_spec, pdf.prod_def_img_url, pdf.prod_def_remark,
+        pur.id AS purid, pur.supplier_id, pur.pur_total_money, pur.pur_date, pur.pur_remark,pur.pur_code,
+        st.id AS storeid, st.sto_locations, st.sto_address, st.sto_manangers, st.sto_remark,
+        od.id AS orderid, od.od_date, od.od_box_num, od.prop_id, od.od_remark
+        FROM product_detail prod
+        LEFT JOIN product_definition pdf ON pdf.id=prod.pddef_id
+        LEFT JOIN purchase pur ON pur.id=prod.pur_id
+        LEFT JOIN store st ON st.id=prod.store_id
+        LEFT JOIN xiaduo.order od ON od.id=prod.order_id
+        <where>
+            <if test="condMap.prod_def_name!=null" >
+                AND pdf.prod_def_name=#{condMap.prod_def_name}
+            </if>
+            <if test="condMap.prod_status!=null" >
+                AND prod.prod_status=#{condMap.prod_status}
+            </if>
+            <if test="condMap.pur_id!=null" >
+                AND prod.pur_id=#{condMap.pur_id}
+            </if>
+            <if test="condMap.store_id!=null" >
+                AND prod.store_id=#{condMap.store_id}
+            </if>
+            <if test="condMap.order_date_start_time!=null and condMap.order_date_end_time!=null" >
+                AND od.od_date &gt;=#{condMap.order_date_start_time}
+                AND od.od_date &lt;=#{condMap.order_date_end_time}
+            </if>
+            <if test="condMap.pur_date_start_time!=null and condMap.pur_date_end_time!=null" >
+                AND pur.pur_date &gt;=#{condMap.pur_date_start_time}
+                AND pur.pur_date &lt;=#{condMap.pur_date_end_time}
+            </if>
+            <if test="condMap.pattern_name!=null" >
+                AND (
+                pdf.prod_def_name LIKE CONCAT('%', #{condMap.pattern_name} ,'%')
+                OR st.sto_name LIKE CONCAT('%', #{condMap.pattern_name} ,'%')
+                )
+            </if>
+        </where>
+
+    </select>
+
+    <insert id="insertBatch">
+        INSERT INTO product_detail(pddef_id, prod_status, pur_id, pur_price, store_id, store_loc, order_id, sale_price, creator_id, prod_remark, create_date)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.pddefId,jdbcType=INTEGER},
+            #{item.prodStatus,jdbcType=INTEGER},
+            #{item.purId,jdbcType=INTEGER},
+            #{item.purPrice,jdbcType=DOUBLE},
+            #{item.storeId,jdbcType=INTEGER},
+            #{item.storeLoc,jdbcType=VARCHAR},
+            #{item.orderId,jdbcType=INTEGER},
+            #{item.salePrice,jdbcType=DOUBLE},
+            #{item.creatorId,jdbcType=INTEGER},
+            #{item.prodRemark,jdbcType=VARCHAR},
+            #{item.createDate}
+            )
+        </foreach>
+    </insert>
 
 </mapper>

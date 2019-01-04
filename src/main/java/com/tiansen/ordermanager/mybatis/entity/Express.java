@@ -46,6 +46,14 @@ public class Express extends Model<Express> {
      * 快递公司
      */
     private String expCompany;
+    /**
+     * 运费
+     */
+    private String expExpense;
+    /**
+     * 重量
+     */
+    private String expWeight;
 
     /**
      * 单号

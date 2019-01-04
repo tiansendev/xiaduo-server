@@ -23,7 +23,7 @@ public class CustomPermissionFilter extends PermissionsAuthorizationFilter {
 //            isPermitted = true;
 //        }
         // TODO: 18-11-21 测试用
-        if (subject.isAuthenticated())
+        if (true/*subject.isAuthenticated()*/)
             isPermitted = true;
         return isPermitted;
     }
