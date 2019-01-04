@@ -19,7 +19,7 @@
         <result column="update_date" property="updateDate" />
     </resultMap>
 
-    <resultMap id="ProductDetailInfoMap" type="com.tiansen.ordermanager.mybatis.entity.join.ProductDetailInfo" extends="BaseResultMap">
+    <resultMap id="ProductDetailInfoMap" type="com.tiansen.ordermanager.mybatis.entity.join.product.ProductDetailInfo" extends="BaseResultMap">
         <association property="productDefinition" javaType="com.tiansen.ordermanager.mybatis.entity.ProductDefinition">
             <id column="pdfid" property="id" />
             <result column="prod_def_name" property="prodDefName" />

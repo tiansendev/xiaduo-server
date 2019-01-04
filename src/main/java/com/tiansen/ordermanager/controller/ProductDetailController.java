@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,7 +89,7 @@ public class ProductDetailController {
             @RequestParam(value = "purDateEndTime", required = false)Long purDateEndTime,
             @RequestParam(value = "orderDateStartTime", required = false) Long orderDateStartTime,
             @RequestParam(value = "orderDateEndTime", required = false) Long orderDateEndTime,
-            @PageableDefault(value = 10) Pageable pageable
+            @PageableDefault(value = 10, sort = {"update_date"}, direction = Sort.Direction.DESC) Pageable pageable
     ) throws Exception {
         return ServiceResult.success(iProductDetailService.findByCondPage(name, status, defId, purId, storeId, orderId,
                 purDateStartTime, purDateEndTime,orderDateStartTime, orderDateEndTime, patterName,pageable));
@@ -103,7 +104,7 @@ public class ProductDetailController {
 //        if (StringUtils.isNotBlank(name)) {
 //            queryWrapper.eq(ProductDetail.PROD_DEF_NAME, name);
 //        }
-//        DefaultOrderFill.fillOrderDefault(queryWrapper);
+//        SortProcessor.process(queryWrapper);
 //        return ServiceResult.success(iProductDetailService.list(queryWrapper));
 //    }
 

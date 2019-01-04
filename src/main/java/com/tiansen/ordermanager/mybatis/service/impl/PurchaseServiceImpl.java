@@ -9,7 +9,6 @@ import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseDetail;
 import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseInfo;
 import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseReq;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
-import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
 import com.tiansen.ordermanager.mybatis.mapper.ProductDetailMapper;
 import com.tiansen.ordermanager.mybatis.mapper.PurchaseMapper;
 import com.tiansen.ordermanager.mybatis.service.IPurchaseService;

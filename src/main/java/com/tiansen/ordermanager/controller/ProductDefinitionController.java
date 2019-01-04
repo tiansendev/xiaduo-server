@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tiansen.ordermanager.common.model.ServiceResult;
 import com.tiansen.ordermanager.exception.ParameterIllegalException;
-import com.tiansen.ordermanager.mybatis.entity.Combination;
 import com.tiansen.ordermanager.mybatis.entity.ProductDefinition;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
-import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
-import com.tiansen.ordermanager.mybatis.mapper.ProductDefinitionMapper;
+import com.tiansen.ordermanager.common.util.SortProcessor;
 import com.tiansen.ordermanager.mybatis.service.IProductDefinitionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,9 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -88,14 +85,14 @@ public class ProductDefinitionController {
     @RequestMapping(value = "/bypage", method = RequestMethod.GET)
     public ServiceResult findByCondByPage(
             @RequestParam(value = "name", required = false) String name,
-            @PageableDefault(value = 10, sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable
+            @PageableDefault(value = 10, sort = {"update_date"}, direction = Sort.Direction.DESC) Pageable pageable
     ) throws Exception {
 
         QueryWrapper<ProductDefinition> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(name)) {
             queryWrapper.eq(ProductDefinition.PROD_DEF_NAME, name);
         }
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, pageable);
         Page<ProductDefinition> page = new Page<>(pageable.getPageSize(), pageable.getPageNumber());
         return ServiceResult.success(iProductDefinitionService.page(page, queryWrapper));
     }
@@ -103,13 +100,14 @@ public class ProductDefinitionController {
     @ApiOperation(value = "条件查询")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ServiceResult findByCond(
-            @RequestParam(value = "name", required = false) String name
+            @RequestParam(value = "name", required = false) String name,
+            @SortDefault(sort = {"update_date"}, direction = Sort.Direction.DESC) Sort sort
     ) throws Exception {
         QueryWrapper<ProductDefinition> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(name)) {
             queryWrapper.eq(ProductDefinition.PROD_DEF_NAME, name);
         }
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, sort);
         return ServiceResult.success(iProductDefinitionService.list(queryWrapper));
     }
 

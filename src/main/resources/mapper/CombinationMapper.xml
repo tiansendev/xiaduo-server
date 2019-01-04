@@ -6,54 +6,58 @@
     <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.Combination">
         <id column="id" property="id" />
         <result column="comb_name" property="combName" />
-        <result column="prod_def_ids" property="prodDefIds" />
         <result column="comb_remark" property="combRemark" />
         <result column="creator_id" property="creatorId" />
         <result column="create_date" property="createDate" />
         <result column="update_date" property="updateDate" />
     </resultMap>
 
-    <!--<resultMap id="DetailResultMap" type="com.tiansen.ordermanager.mybatis.entity.join.CombinationDetail" extends="BaseResultMap">-->
-        <!--<collection property="prod_def_ids" ofType="java.util.List" javaType="com.tiansen.ordermanager.mybatis.entity.ProductDefinition">-->
-            <!--<id column="prod_def_id" property="id" />-->
-            <!--<result column="prod_def_name" property="prodDefName" />-->
-            <!--<result column="prod_def_no" property="prodDefNo" />-->
-            <!--<result column="prod_def_spec" property="prodDefSpec" />-->
-            <!--<result column="prod_def_img_url" property="prodDefImgUrl" />-->
-            <!--<result column="prod_def_remark" property="prodDefRemark" />-->
-            <!--&lt;!&ndash;<result column="creator_id" property="creatorId" />&ndash;&gt;-->
-            <!--&lt;!&ndash;<result column="create_date" property="createDate" />&ndash;&gt;-->
-            <!--&lt;!&ndash;<result column="update_date" property="updateDate" />&ndash;&gt;-->
-        <!--</collection>-->
-    <!--</resultMap>-->
+    <resultMap id="DetailResultMap" type="com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDetail" extends="BaseResultMap">
+        <collection property="prod_def_ids" ofType="java.util.List" javaType="com.tiansen.ordermanager.mybatis.entity.join.combination.ProductDefinitionInfoInCombination">
+            <id column="prod_def_id" property="id" />
+            <result column="prod_def_name" property="prodDefName" />
+            <result column="prod_def_no" property="prodDefNo" />
+            <result column="prod_def_spec" property="prodDefSpec" />
+            <result column="prod_def_img_url" property="prodDefImgUrl" />
+            <result column="prod_def_remark" property="prodDefRemark" />
+            <result column="prod_num" property="prodDefRemark" />
+            <result column="prod_unit" property="prodUnit" />
+            <result column="comb_def_remark" property="combDefRemark" />
+        </collection>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, comb_name, prod_def_ids, comb_remark, creator_id, create_date, update_date
     </sql>
 
-    <!--<select id="findDetailById" resultMap="DetailResultMap">-->
-        <!--&lt;!&ndash; 调用存储过程 &ndash;&gt;-->
-        <!--<include refid="split" />-->
-        <!--SELECT comb.*, pdf.id AS prod_def_id, pdf.prod_def_name, pdf.prod_def_no, pdf.prod_def_spec, pdf.prod_def_img_url,-->
-        <!--pdf.prod_def_remark-->
-        <!--FROM combination comb-->
-        <!--LEFT JOIN product_definition pdf ON pdf.id IN-->
-        <!--<include refid="idsArray" />-->
-        <!--WHERE comb.id=#{id}-->
-    <!--</select>-->
-
-    <!--<sql id="split">-->
-        <!--SET SQL_SAFE_UPDATES=0;&lt;!&ndash;-->
-        <!--<include refid="callSplit" />&ndash;&gt;-->
-    <!--</sql>-->
-
-    <!--<select id="callSplit" statementType="CALLABLE">-->
-        <!--{call splitIds('1,2,4', ",")}-->
-    <!--</select>-->
-
-    <!--<sql id="idsArray">-->
-        <!--(select * from temp_split_table)-->
-    <!--</sql>-->
-
+    <sql id="Detail_Result">
+        SELECT comb.*,
+        pdf.id AS prod_def_id, pdf.prod_def_name, pdf.prod_def_no, pdf.prod_def_spec, pdf.prod_def_img_url,pdf.prod_def_remark
+        cpd.prod_num, cpd.prod_unit, cpd.comb_def_remark
+        FROM combination comb
+        LEFT JOIN combination_product_def cpd ON cpd.comb_id=comb.id
+        LEFT JOIN product_definition pdf ON pdf.id=cpd.prod_def_id
+    </sql>
+    <select id="findDetailByCondMap" resultMap="DetailResultMap">
+        <include refid="Detail_Result" />
+        <where>
+            <if test="condMap.comb_name != null">
+                AND comb.comb_name=#{condMap.comb_name}
+            </if>
+            <if test="condMap.prod_def_name != null">
+                AND pdf.prod_def_name=#{condMap.prod_def_name}
+            </if>
+            <if test="condMap.pattern_name != null">
+                AND (
+                comb.comb_name LIKE CONCAT('%',#{condMap.comb_name},'%')
+                OR pdf.prod_def_name LIKE CONCAT('%',condMap.prod_def_name,'%')
+                )
+            </if>
+        </where>
+    </select>
+    <select id="findDetailById" resultMap="DetailResultMap">
+        <include refid="Detail_Result" />
+        WHERE comb.id=#{id}
+    </select>
 </mapper>

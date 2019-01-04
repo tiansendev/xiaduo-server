@@ -4,11 +4,10 @@ package com.tiansen.ordermanager.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tiansen.ordermanager.common.model.ServiceResult;
-import com.tiansen.ordermanager.common.util.RylaiRandom;
 import com.tiansen.ordermanager.exception.ParameterIllegalException;
 import com.tiansen.ordermanager.mybatis.entity.Store;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
-import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
+import com.tiansen.ordermanager.common.util.SortProcessor;
 import com.tiansen.ordermanager.mybatis.fill.UpdateFieldFill;
 import com.tiansen.ordermanager.mybatis.service.IStoreService;
 import io.swagger.annotations.Api;
@@ -16,10 +15,10 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -72,7 +71,7 @@ public class StoreController {
     public ServiceResult findById(@PathVariable("name") String name) throws Exception {
         return ServiceResult.success(iStoreService.getOne(
                 new QueryWrapper<Store>()
-                .eq(Store.STO_NAME, name)
+                        .eq(Store.STO_NAME, name)
         ));
     }
 
@@ -92,18 +91,22 @@ public class StoreController {
 
     @ApiOperation(value = "查询，分页", notes = "条件查询")
     @RequestMapping(value = "/bypage", method = RequestMethod.GET)
-    public ServiceResult findByCondByPage(@PageableDefault(value = 10) Pageable pageable) throws Exception {
+    public ServiceResult findByCondByPage(
+            @PageableDefault(value = 10, sort = {"update_date"}, direction = Sort.Direction.DESC) Pageable pageable
+    ) throws Exception {
         QueryWrapper<Store> queryWrapper = new QueryWrapper<>();
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, pageable);
         Page<Store> page = new Page<>(pageable.getPageSize(), pageable.getPageNumber());
         return ServiceResult.success(iStoreService.page(page, queryWrapper));
     }
 
     @ApiOperation(value = "查询所有")
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ServiceResult findByCond() throws Exception {
+    public ServiceResult findByCond(
+            @SortDefault(sort = {"update_date"}, direction = Sort.Direction.DESC) Sort sort
+    ) throws Exception {
         QueryWrapper<Store> queryWrapper = new QueryWrapper<>();
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, sort);
         return ServiceResult.success(iStoreService.list(queryWrapper));
     }
 

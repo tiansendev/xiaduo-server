@@ -8,9 +8,8 @@ import com.tiansen.ordermanager.exception.ParameterIllegalException;
 import com.tiansen.ordermanager.mybatis.entity.Proposer;
 import com.tiansen.ordermanager.mybatis.entity.emun.PropPropertyEmun;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
-import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
+import com.tiansen.ordermanager.common.util.SortProcessor;
 import com.tiansen.ordermanager.mybatis.fill.UpdateFieldFill;
-import com.tiansen.ordermanager.mybatis.service.IProposerService;
 import com.tiansen.ordermanager.mybatis.service.IProposerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,9 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -94,7 +92,7 @@ public class ProposerController {
             @RequestParam(value = "property", required = false) String property,
             @RequestParam(value = "propName", required = false) String propName,
             @RequestParam(value = "propContactMan", required = false) String propContactMan,
-            @PageableDefault(value = 10) Pageable pageable
+            @PageableDefault(value = 10, sort = {"update_date"}, direction = Sort.Direction.DESC) Pageable pageable
     ) throws Exception {
 
         QueryWrapper<Proposer> queryWrapper = new QueryWrapper<>();
@@ -107,7 +105,7 @@ public class ProposerController {
         if (StringUtils.isNotBlank(propContactMan)) {
             queryWrapper.eq(Proposer.PROP_CONTACT_MAN, propContactMan);
         }
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, pageable);
         Page<Proposer> page = new Page<>(pageable.getPageSize(), pageable.getPageNumber());
         return ServiceResult.success(iProposerService.page(page, queryWrapper));
     }
@@ -117,7 +115,8 @@ public class ProposerController {
     public ServiceResult findByCond(
             @RequestParam(value = "property", required = false) String property,
             @RequestParam(value = "propName", required = false) String propName,
-            @RequestParam(value = "propContactMan", required = false) String propContactMan
+            @RequestParam(value = "propContactMan", required = false) String propContactMan,
+            @SortDefault(sort = {"update_date"}, direction = Sort.Direction.DESC) Sort sort
     ) throws Exception {
         QueryWrapper<Proposer> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(property)) {
@@ -129,7 +128,7 @@ public class ProposerController {
         if (StringUtils.isNotBlank(propContactMan)) {
             queryWrapper.eq(Proposer.PROP_CONTACT_MAN, propContactMan);
         }
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, sort);
         return ServiceResult.success(iProposerService.list(queryWrapper));
     }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.CombinationProductDefMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.CombinationProductDef">
+        <id column="id" property="id" />
+        <result column="comb_id" property="combId" />
+        <result column="prod_def_id" property="prodDefId" />
+        <result column="prod_num" property="prodNum" />
+        <result column="prod_unit" property="prodUnit" />
+        <result column="comb_def_remark" property="combDefRemark" />
+        <result column="creator_id" property="creatorId" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, comb_id, prod_def_id, prod_num, prod_unit, comb_def_remark, creator_id, create_date, update_date
+    </sql>
+
+</mapper>

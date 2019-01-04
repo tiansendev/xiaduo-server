@@ -7,7 +7,7 @@ import com.tiansen.ordermanager.common.model.ServiceResult;
 import com.tiansen.ordermanager.exception.ParameterIllegalException;
 import com.tiansen.ordermanager.mybatis.entity.Express;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
-import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
+import com.tiansen.ordermanager.common.util.SortProcessor;
 import com.tiansen.ordermanager.mybatis.fill.UpdateFieldFill;
 import com.tiansen.ordermanager.mybatis.service.IExpressService;
 import io.swagger.annotations.Api;
@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -99,7 +100,7 @@ public class ExpressController {
             @RequestParam(value = "recipient", required = false) String recipient,
             @RequestParam(value = "mobile", required = false) String mobile,
             @RequestParam(value = "company", required = false) String company,
-            @PageableDefault(value = 10, sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable
+            @PageableDefault(value = 10, sort = {"update_date"}, direction = Sort.Direction.DESC) Pageable pageable
     ) throws Exception {
 
         QueryWrapper<Express> queryWrapper = new QueryWrapper<>();
@@ -115,7 +116,7 @@ public class ExpressController {
         if (StringUtils.isNotBlank(company)) {
             queryWrapper.eq(Express.EXP_COMPANY, company);
         }
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, pageable);
         Page<Express> page = new Page<>(pageable.getPageSize(), pageable.getPageNumber());
         return ServiceResult.success(iExpressService.page(page, queryWrapper));
     }
@@ -126,8 +127,8 @@ public class ExpressController {
             @RequestParam(value = "address", required = false) String address,
             @RequestParam(value = "recipient", required = false) String recipient,
             @RequestParam(value = "mobile", required = false) String mobile,
-            @RequestParam(value = "company", required = false) String company
-
+            @RequestParam(value = "company", required = false) String company,
+            @SortDefault(sort = {"update_date"}, direction = Sort.Direction.DESC) Sort sort
     ) throws Exception {
         QueryWrapper<Express> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(address)) {
@@ -142,7 +143,7 @@ public class ExpressController {
         if (StringUtils.isNotBlank(company)) {
             queryWrapper.eq(Express.EXP_COMPANY, company);
         }
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, sort);
         return ServiceResult.success(iExpressService.list(queryWrapper));
     }
 

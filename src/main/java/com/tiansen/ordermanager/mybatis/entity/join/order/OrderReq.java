@@ -13,7 +13,7 @@ public class OrderReq extends Order {
      */
     private List<Integer> combIds;
     /**
-     * 产品定义ids
+     * 产品定义ids （当该订单不是组合产品时）
      */
     private List<Integer> prodDefIds;
     /**

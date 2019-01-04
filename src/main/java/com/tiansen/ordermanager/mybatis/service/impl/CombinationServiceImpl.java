@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tiansen.ordermanager.mybatis.entity.Combination;
 import com.tiansen.ordermanager.mybatis.entity.ProductDefinition;
-import com.tiansen.ordermanager.mybatis.entity.join.CombinationDetail;
-import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
+import com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDetail;
+import com.tiansen.ordermanager.common.util.SortProcessor;
 import com.tiansen.ordermanager.mybatis.mapper.CombinationMapper;
 import com.tiansen.ordermanager.mybatis.mapper.ProductDefinitionMapper;
 import com.tiansen.ordermanager.mybatis.service.ICombinationService;
@@ -14,10 +14,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -37,7 +39,7 @@ public class CombinationServiceImpl extends ServiceImpl<CombinationMapper, Combi
     private ProductDefinitionMapper productDefinitionMapper;
 
     @Override
-    public List<Combination> findByCond(String name, String prodName) {
+    public List<Combination> findByCond(String name, String prodName, Sort sort) {
         QueryWrapper<Combination> queryWapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(name)) {
             queryWapper.eq(Combination.COMB_NAME, name);
@@ -46,51 +48,35 @@ public class CombinationServiceImpl extends ServiceImpl<CombinationMapper, Combi
             queryWapper.eq(ProductDefinition.PROD_DEF_NAME, prodName);
         }
 
-        DefaultOrderFill.fillOrderDefault(queryWapper);
+        SortProcessor.process(queryWapper, sort);
 
         return list(queryWapper);
     }
 
     @Override
-    public IPage<Combination> findByCondByPage(String name, String prodName, Pageable pageable) {
-//        Map<String, Object> condMap = new HashMap<>();
-//        if (StringUtils.isNotBlank(name)) {
-//            condMap.put(Combination.COMB_NAME, name);
-//        }
-//        if (StringUtils.isNotBlank(prodName)) {
-//            condMap.put(ProductDefinition.PROD_DEF_NAME, prodName);
-//        }
-//
-        QueryWrapper<Combination> queryWapper = new QueryWrapper<>();
+    public IPage<CombinationDetail> findByCondByPage(String name, String prodName, String patternName,  Pageable pageable) {
+        Map<String, Object> condMap = new HashMap<>();
         if (StringUtils.isNotBlank(name)) {
-            queryWapper.eq(Combination.COMB_NAME, name);
+            condMap.put(Combination.COMB_NAME, name);
         }
         if (StringUtils.isNotBlank(prodName)) {
-            queryWapper.eq(ProductDefinition.PROD_DEF_NAME, prodName);
+            condMap.put(ProductDefinition.PROD_DEF_NAME, prodName);
         }
-        DefaultOrderFill.fillOrderDefault(queryWapper);
+        if (StringUtils.isNotBlank(patternName)) {
+            condMap.put("pattern_name", patternName);
+        }
+
         Page<Combination> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        return page(page, queryWapper);
+        SortProcessor.process(page, pageable);
+
+        Page<CombinationDetail> detailByCondMap = combinationMapper.findDetailByCondMap(page,condMap);
+
+        return detailByCondMap;
     }
 
     @Override
     public Combination findDetailById(Integer id) {
-        Combination combination =  combinationMapper.selectById(id);
-        if (combination == null || combination.getProdDefIds() == null || combination.getProdDefIds().length==0)
-            return combination;
-        List<Integer> prodDefIds = new ArrayList<>();
-        for (Object menuId : combination.getProdDefIds()) {
-            prodDefIds.add((Integer) menuId);
-        }
-        CombinationDetail detail = new CombinationDetail();
-        detail.setId(combination.getId())
-                .setCreateDate(combination.getCreateDate())
-                .setUpdateDate(combination.getUpdateDate())
-                .setCreatorId(combination.getCreatorId())
-                .setCombRemark(combination.getCombRemark())
-                .setCombName(combination.getCombName());
-        List<ProductDefinition> productDefinitions = productDefinitionMapper.selectBatchIds(prodDefIds);
-        detail.setProductDefinitions(productDefinitions);
+        CombinationDetail detail =  combinationMapper.findDetailById(id);
         return detail;
     }
 

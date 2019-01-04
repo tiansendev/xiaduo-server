@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,8 +36,7 @@ public class CombinationController {
     @ApiOperation(value = "添加组合", notes = "添加组合")
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ServiceResult addComb(@RequestBody Combination combination) throws Exception {
-        if (combination == null || StringUtils.isBlank(combination.getCombName())
-                || combination.getProdDefIds() == null || combination.getProdDefIds().length == 0)
+        if (combination == null || StringUtils.isBlank(combination.getCombName()))
             throw  new ParameterIllegalException("参数不合法");
         CreateFieldFill.fill(combination);
         iCombinationService.save(combination);
@@ -81,19 +81,21 @@ public class CombinationController {
     @RequestMapping(value = "/bypage", method = RequestMethod.GET)
     public ServiceResult findByCondByPage(
             @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "prodname", required = false) String prodName,
-            @PageableDefault(value = 10, sort = {"id"}, direction = Sort.Direction.ASC)Pageable pageable
+            @RequestParam(value = "prodName", required = false) String prodName,
+            @RequestParam(value = "patternName", required = false) String patternName,
+            @PageableDefault(value = 10, sort = {"update_date"}, direction = Sort.Direction.DESC)Pageable pageable
     ) throws Exception {
-        return ServiceResult.success(iCombinationService.findByCondByPage(name, prodName, pageable));
+        return ServiceResult.success(iCombinationService.findByCondByPage(name, prodName, patternName, pageable));
     }
 
     @ApiOperation(value = "条件查询", notes = "条件查询")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ServiceResult findByCond(
             @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "prodname", required = false) String prodName
+            @RequestParam(value = "prodname", required = false) String prodName,
+            @SortDefault(sort = {"update_date"}, direction = Sort.Direction.DESC) Sort sort
     ) throws Exception {
-        return ServiceResult.success(iCombinationService.findByCond(name, prodName));
+        return ServiceResult.success(iCombinationService.findByCond(name, prodName, sort));
     }
 
     @ApiOperation(value = "查看详情", notes = "条件查询")

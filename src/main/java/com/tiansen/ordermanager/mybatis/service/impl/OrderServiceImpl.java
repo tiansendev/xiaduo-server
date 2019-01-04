@@ -144,8 +144,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 //            }
 //
 //            List<Integer> prodIds = new ArrayList<>();
-//            for (Product product : prods) {
-//                prodIds.add(product.getId());
+//            for (Product combination : prods) {
+//                prodIds.add(combination.getId());
 //            }
 
             // ------------------------------ 开始处理 组合 ------------------------------------------
@@ -252,7 +252,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 //            List<Object> ob= list.get(i);
 //            int j = i+1;
 //            int x =0;
-//            Product product = new Product();
+//            Product combination = new Product();
 //            JSONObject jsonObject = new JSONObject();
 //
 //            Map<String,Object> map = new HashMap<>();
@@ -267,7 +267,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 //                    jsonObject.put("第"+j+"行员工","员工不存在");
 //                    x=1;
 //                }else{
-//                    product.setEmp_info_id(employee.getId());
+//                    combination.setEmp_info_id(employee.getId());
 //                }
 //            }
 //
@@ -277,7 +277,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 //                jsonObject.put("第"+j+"行所属类型","类型不存在");
 //                x=1;
 //            }else{
-//                product.setType_info_id(assetstype.getId());
+//                combination.setType_info_id(assetstype.getId());
 //            }
 //
 //            if(StringUtils.isNotBlank(String.valueOf(ob.get(7)))){
@@ -287,7 +287,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 //                    jsonObject.put("第"+j+"行所属仓库","仓库不存在");
 //                    x=1;
 //                }else{
-//                    product.setStore_info_id(assetsstore.getId());
+//                    combination.setStore_info_id(assetsstore.getId());
 //                }
 //            }
 //
@@ -298,26 +298,26 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 //                x=1;
 //            }
 //            if(x==0) {
-//                product.setBase_unique(String.valueOf(ob.get(0)));
-//                product.setBase_brand(String.valueOf(ob.get(1)));
-//                product.setBase_model(String.valueOf(ob.get(2)));
+//                combination.setBase_unique(String.valueOf(ob.get(0)));
+//                combination.setBase_brand(String.valueOf(ob.get(1)));
+//                combination.setBase_model(String.valueOf(ob.get(2)));
 //                if (StringUtils.isNotBlank(String.valueOf(ob.get(3)))) {
-//                    product.setExpiration_time(Timestamp.valueOf(String.valueOf(ob.get(3))));
+//                    combination.setExpiration_time(Timestamp.valueOf(String.valueOf(ob.get(3))));
 //                }
 //
-//                product.setBase_status(String.valueOf(ob.get(6)));
+//                combination.setBase_status(String.valueOf(ob.get(6)));
 //                Long maxSeq = productDao.findMaxSeqValue(Product.BASE_SEQ);
 //                if (maxSeq == null)
 //                    maxSeq = 0l;
 //                long currentSeq = maxSeq + 1;
-//                product.setBase_seq(currentSeq);
+//                combination.setBase_seq(currentSeq);
 //
 //                // base_epc_code
-//                String epc =HexAscByteUtil.str2HexStr(product.getBase_unique());
-//                product.setBase_epc_code(epc);
-//                product.setLastop_date(RylaiDate.getCurrTimstamp());
-//                product.setAppend_info(new Object());
-//                productDao.insert(product);
+//                String epc =HexAscByteUtil.str2HexStr(combination.getBase_unique());
+//                combination.setBase_epc_code(epc);
+//                combination.setLastop_date(RylaiDate.getCurrTimstamp());
+//                combination.setAppend_info(new Object());
+//                productDao.insert(combination);
 //            }
 //            if(!jsonObject.isEmpty()){
 //                erroMessage.add(jsonObject);
@@ -334,7 +334,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         List<Integer> combIds = orderReq.getCombIds();
         List<Integer> consumIds = orderReq.getConsumIds();
         Express express = orderReq.getExpress();
-        if (combIds != null) {
+        if (combIds != null ) {
             // 组合信息
         }
     }

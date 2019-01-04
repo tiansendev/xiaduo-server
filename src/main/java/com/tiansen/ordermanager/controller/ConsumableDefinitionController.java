@@ -7,9 +7,8 @@ import com.tiansen.ordermanager.common.model.ServiceResult;
 import com.tiansen.ordermanager.exception.ParameterIllegalException;
 import com.tiansen.ordermanager.mybatis.entity.ConsumableDefinition;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
-import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
+import com.tiansen.ordermanager.common.util.SortProcessor;
 import com.tiansen.ordermanager.mybatis.fill.UpdateFieldFill;
-import com.tiansen.ordermanager.mybatis.service.IConsumableDefinitionService;
 import com.tiansen.ordermanager.mybatis.service.IConsumableDefinitionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,9 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -88,14 +86,14 @@ public class ConsumableDefinitionController {
     @RequestMapping(value = "/bypage", method = RequestMethod.GET)
     public ServiceResult findByCondByPage(
             @RequestParam(value = "name", required = false) String name,
-            @PageableDefault(value = 10, sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable
+            @PageableDefault(value = 10, sort = {"update_date"}, direction = Sort.Direction.DESC) Pageable pageable
     ) throws Exception {
 
         QueryWrapper<ConsumableDefinition> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(name)) {
             queryWrapper.eq(ConsumableDefinition.CON_DEF_NAME, name);
         }
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, pageable);
         Page<ConsumableDefinition> page = new Page<>(pageable.getPageSize(), pageable.getPageNumber());
         return ServiceResult.success(iConsumableDefinitionService.page(page, queryWrapper));
     }
@@ -103,13 +101,14 @@ public class ConsumableDefinitionController {
     @ApiOperation(value = "条件查询")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ServiceResult findByCond(
-            @RequestParam(value = "name", required = false) String name
+            @RequestParam(value = "name", required = false) String name,
+            @SortDefault(sort = {"update_date"}, direction = Sort.Direction.DESC) Sort sort
     ) throws Exception {
         QueryWrapper<ConsumableDefinition> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(name)) {
             queryWrapper.eq(ConsumableDefinition.CON_DEF_NAME, name);
         }
-        DefaultOrderFill.fillOrderDefault(queryWrapper);
+        SortProcessor.process(queryWrapper, sort);
         return ServiceResult.success(iConsumableDefinitionService.list(queryWrapper));
     }
 

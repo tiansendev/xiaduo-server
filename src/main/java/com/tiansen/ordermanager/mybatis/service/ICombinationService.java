@@ -3,9 +3,9 @@ package com.tiansen.ordermanager.mybatis.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tiansen.ordermanager.mybatis.entity.Combination;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.tiansen.ordermanager.mybatis.entity.join.CombinationDetail;
-import io.swagger.models.auth.In;
+import com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDetail;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -19,9 +19,9 @@ import java.util.List;
  */
 public interface ICombinationService extends IService<Combination> {
 
-    List<Combination> findByCond(String name, String prodName);
+    List<Combination> findByCond(String name, String prodName, Sort sort);
 
-    IPage<Combination> findByCondByPage(String name, String prodName, Pageable pageable);
+    IPage<CombinationDetail> findByCondByPage(String name, String prodName, String patternName,  Pageable pageable);
 
     Combination findDetailById(Integer id);
 }

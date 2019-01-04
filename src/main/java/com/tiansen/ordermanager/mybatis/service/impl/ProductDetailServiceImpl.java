@@ -2,8 +2,8 @@ package com.tiansen.ordermanager.mybatis.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tiansen.ordermanager.mybatis.entity.*;
-import com.tiansen.ordermanager.mybatis.entity.join.ProductDetailInfo;
-import com.tiansen.ordermanager.mybatis.fill.DefaultOrderFill;
+import com.tiansen.ordermanager.mybatis.entity.join.product.ProductDetailInfo;
+import com.tiansen.ordermanager.common.util.SortProcessor;
 import com.tiansen.ordermanager.mybatis.mapper.ProductDetailMapper;
 import com.tiansen.ordermanager.mybatis.service.IProductDetailService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -60,7 +60,7 @@ public class ProductDetailServiceImpl extends ServiceImpl<ProductDetailMapper, P
         if (StringUtils.isNotBlank(patterName))
             map.put("pattern_name", patterName);
         Page<ProductInfo> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
-        DefaultOrderFill.fillOrderDefault(page);
+        SortProcessor.process(page, pageable);
         return productDetailMapper.findByCondPage(page, map);
     }
 }

@@ -1,4 +1,4 @@
-package com.tiansen.ordermanager.mybatis.entity.join;
+package com.tiansen.ordermanager.mybatis.entity.join.product;
 
 import com.tiansen.ordermanager.mybatis.entity.*;
 import lombok.Data;

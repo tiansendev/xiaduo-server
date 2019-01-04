@@ -1,10 +1,9 @@
 package com.tiansen.ordermanager.mybatis.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tiansen.ordermanager.mybatis.entity.ProductDetail;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tiansen.ordermanager.mybatis.entity.join.ProductDetailInfo;
+import com.tiansen.ordermanager.mybatis.entity.join.product.ProductDetailInfo;
 import net.sf.ehcache.util.ProductInfo;
 import org.apache.ibatis.annotations.Param;
 

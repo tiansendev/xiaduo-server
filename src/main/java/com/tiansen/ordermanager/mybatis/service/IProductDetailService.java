@@ -3,7 +3,7 @@ package com.tiansen.ordermanager.mybatis.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tiansen.ordermanager.mybatis.entity.ProductDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.tiansen.ordermanager.mybatis.entity.join.ProductDetailInfo;
+import com.tiansen.ordermanager.mybatis.entity.join.product.ProductDetailInfo;
 import org.springframework.data.domain.Pageable;
 
 /**
