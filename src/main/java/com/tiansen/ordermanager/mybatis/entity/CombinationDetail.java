@@ -11,16 +11,16 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 订单-组合中间表
+ * 组合详情
  * </p>
  *
  * @author rylai
- * @since 2019-01-03
+ * @since 2019-01-05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class OrderCombination extends Model<OrderCombination> {
+public class CombinationDetail extends Model<CombinationDetail> {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,12 +31,9 @@ public class OrderCombination extends Model<OrderCombination> {
 
     private Integer combId;
 
-    /**
-     * 组合数量
-     */
-    private Integer combNum;
+    private Double combSalePrice;
 
-    private String remak;
+    private String combDetailRemak;
 
     private Date updateDate;
 
@@ -51,9 +48,9 @@ public class OrderCombination extends Model<OrderCombination> {
 
     public static final String COMB_ID = "comb_id";
 
-    public static final String COMB_NUM = "comb_num";
+    public static final String COMB_SALE_PRICE = "comb_sale_price";
 
-    public static final String REMAK = "remak";
+    public static final String COMB_DETAIL_REMAK = "comb_detail_remak";
 
     public static final String UPDATE_DATE = "update_date";
 

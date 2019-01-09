@@ -43,6 +43,16 @@ public class ProductDefinition extends Model<ProductDefinition> {
     private String prodDefSpec;
 
     /**
+     * 产品当前销售价格
+     */
+    private Double prodDefSalePrice;
+
+    /**
+     * 产品类型 0：盈利产品 1：消耗品 2：赠品 3：非卖品 4：其他
+     */
+    private Integer prodDefType;
+
+    /**
      * 产品图片
      */
     private String prodDefImgUrl;
@@ -63,9 +73,13 @@ public class ProductDefinition extends Model<ProductDefinition> {
 
     public static final String PROD_DEF_NAME = "prod_def_name";
 
+    public static final String PROD_DEF_TYPE = "prod_def_type";
+
     public static final String PROD_DEF_NO = "prod_def_no";
 
     public static final String PROD_DEF_SPEC = "prod_def_spec";
+
+    public static final String PROD_DEF_SALE_PRICE = "prod_def_sale_price";
 
     public static final String PROD_DEF_IMG_URL = "prod_def_img_url";
 

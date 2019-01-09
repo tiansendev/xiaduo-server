@@ -12,7 +12,7 @@
         <result column="update_date" property="updateDate" />
     </resultMap>
 
-    <resultMap id="DetailResultMap" type="com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDetail" extends="BaseResultMap">
+    <resultMap id="DetailResultMap" type="com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDefInfo" extends="BaseResultMap">
         <collection property="prod_def_ids" ofType="java.util.List" javaType="com.tiansen.ordermanager.mybatis.entity.join.combination.ProductDefinitionInfoInCombination">
             <id column="prod_def_id" property="id" />
             <result column="prod_def_name" property="prodDefName" />
@@ -59,5 +59,12 @@
     <select id="findDetailById" resultMap="DetailResultMap">
         <include refid="Detail_Result" />
         WHERE comb.id=#{id}
+    </select>
+    <select id="findDetailByCombIds" resultMap="DetailResultMap">
+        <include refid="Detail_Result" />
+        WHERE comb.id IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 </mapper>

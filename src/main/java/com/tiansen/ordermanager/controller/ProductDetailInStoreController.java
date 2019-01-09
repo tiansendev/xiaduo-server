@@ -3,8 +3,8 @@ package com.tiansen.ordermanager.controller;
 
 import com.tiansen.ordermanager.common.model.ServiceResult;
 import com.tiansen.ordermanager.exception.ParameterIllegalException;
-import com.tiansen.ordermanager.mybatis.entity.ProductDetail;
-import com.tiansen.ordermanager.mybatis.service.IProductDetailService;
+import com.tiansen.ordermanager.mybatis.entity.ProductDetailInStore;
+import com.tiansen.ordermanager.mybatis.service.IProductInStoreDetailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,14 @@ import java.util.List;
 @RestController
 @Api(tags = "产品详情Api")
 @RequestMapping("/product_detail")
-public class ProductDetailController {
+public class ProductDetailInStoreController {
 
     @Autowired
-    private IProductDetailService iProductDetailService;
+    private IProductInStoreDetailService iProductDetailService;
 
 //    @ApiOperation(value = "添加定义")
 //    @RequestMapping(value = "", method = RequestMethod.POST)
-//    public ServiceResult add(@RequestBody ProductDetail productDetail) throws Exception {
+//    public ServiceResult add(@RequestBody ProductDetailInStore productDetail) throws Exception {
 //        if (productDetail == null || StringUtils.isAnyBlank(productDetail.getPddefId(),productDetail.getPur()))
 //            throw  new ParameterIllegalException("参数不合法");
 //        CreateFieldFill.fill(productDetail);
@@ -100,9 +100,9 @@ public class ProductDetailController {
 //    public ServiceResult findByCond(
 //            @RequestParam(value = "name", required = false) String name
 //    ) throws Exception {
-//        QueryWrapper<ProductDetail> queryWrapper = new QueryWrapper<>();
+//        QueryWrapper<ProductDetailInStore> queryWrapper = new QueryWrapper<>();
 //        if (StringUtils.isNotBlank(name)) {
-//            queryWrapper.eq(ProductDetail.PROD_DEF_NAME, name);
+//            queryWrapper.eq(ProductDetailInStore.PROD_DEF_NAME, name);
 //        }
 //        SortProcessor.process(queryWrapper);
 //        return ServiceResult.success(iProductDetailService.list(queryWrapper));
@@ -110,7 +110,7 @@ public class ProductDetailController {
 
     @ApiOperation(value = "更新详情")
     @RequestMapping(value = "", method = RequestMethod.PUT)
-    public ServiceResult update(@RequestBody ProductDetail productDetail) throws Exception {
+    public ServiceResult update(@RequestBody ProductDetailInStore productDetail) throws Exception {
         if (productDetail == null || productDetail.getId() == null)
             throw new ParameterIllegalException();
         iProductDetailService.updateById(productDetail);

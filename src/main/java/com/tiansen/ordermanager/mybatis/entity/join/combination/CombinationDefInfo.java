@@ -6,6 +6,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class CombinationDetail extends Combination {
+public class CombinationDefInfo extends Combination {
     private List<ProductDefinitionInfoInCombination> productDefinitions;
 }

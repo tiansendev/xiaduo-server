@@ -4,7 +4,7 @@ import com.tiansen.ordermanager.mybatis.entity.*;
 import lombok.Data;
 
 @Data
-public class ProductDetailInfo extends ProductDetail {
+public class ProductDetailInStoreInfo extends ProductDetailInStore {
     private Purchase purchase;
     private ProductDefinition productDefinition;
     private Store store;

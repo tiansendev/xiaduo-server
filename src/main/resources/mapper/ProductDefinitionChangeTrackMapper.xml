@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.ProductDefinitionChangeTrackMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.ProductDefinitionChangeTrack">
+        <id column="id" property="id" />
+        <result column="prod_def_id" property="prodDefId" />
+        <result column="change_property" property="changeProperty" />
+        <result column="change_price_last" property="changePriceLast" />
+        <result column="change_price_current" property="changePriceCurrent" />
+        <result column="change_name_last" property="changeNameLast" />
+        <result column="change_name_current" property="changeNameCurrent" />
+        <result column="change_remark" property="changeRemark" />
+        <result column="creator_id" property="creatorId" />
+        <result column="update_date" property="updateDate" />
+        <result column="create_date" property="createDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, prod_def_id, change_property, change_price_last, change_price_current, change_name_last, change_name_current, change_remark, creator_id, update_date, create_date
+    </sql>
+
+</mapper>

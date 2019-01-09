@@ -2,10 +2,10 @@ package com.tiansen.ordermanager.mybatis.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tiansen.ordermanager.mybatis.entity.*;
-import com.tiansen.ordermanager.mybatis.entity.join.product.ProductDetailInfo;
+import com.tiansen.ordermanager.mybatis.entity.join.product.ProductDetailInStoreInfo;
 import com.tiansen.ordermanager.common.util.SortProcessor;
-import com.tiansen.ordermanager.mybatis.mapper.ProductDetailMapper;
-import com.tiansen.ordermanager.mybatis.service.IProductDetailService;
+import com.tiansen.ordermanager.mybatis.mapper.ProductDetailInStoreMapper;
+import com.tiansen.ordermanager.mybatis.service.IProductInStoreDetailService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.sf.ehcache.util.ProductInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -26,28 +26,28 @@ import java.util.Map;
  * @since 2019-01-02
  */
 @Service
-public class ProductDetailServiceImpl extends ServiceImpl<ProductDetailMapper, ProductDetail> implements IProductDetailService {
+public class ProductDetailInStoreServiceImpl extends ServiceImpl<ProductDetailInStoreMapper, ProductDetailInStore> implements IProductInStoreDetailService {
 
     @Autowired
-    private ProductDetailMapper productDetailMapper;
+    private ProductDetailInStoreMapper productDetailMapper;
 
     @Override
-    public Page<ProductDetailInfo> findByCondPage(String name, String status, Integer defId, Integer purId, Integer storeId,
-                                                  Integer orderId, Long purDateStartTime, Long purDateEndTime, Long orderDateStartTime,
-                                                  Long orderDateEndTime, String patterName, Pageable pageable) {
+    public Page<ProductDetailInStoreInfo> findByCondPage(String name, String status, Integer defId, Integer purId, Integer storeId,
+                                                         Integer orderId, Long purDateStartTime, Long purDateEndTime, Long orderDateStartTime,
+                                                         Long orderDateEndTime, String patterName, Pageable pageable) {
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isNotBlank(name))
             map.put(ProductDefinition.PROD_DEF_NAME, name);
         if (StringUtils.isNotBlank(name))
-            map.put(ProductDetail.PROD_STATUS, status);
+            map.put(ProductDetailInStore.PROD_STATUS, status);
         if (defId != null)
-            map.put(ProductDetail.PDDEF_ID, defId);
+            map.put(ProductDetailInStore.PDDEF_ID, defId);
         if (purId != null)
-            map.put(ProductDetail.PUR_ID, purId);
+            map.put(ProductDetailInStore.PUR_ID, purId);
         if (storeId != null)
-            map.put(ProductDetail.STORE_ID, storeId);
+            map.put(ProductDetailInStore.STORE_ID, storeId);
         if (orderId != null)
-            map.put(ProductDetail.ORDER_ID, orderId);
+            map.put(ProductDetailInStore.ORDER_ID, orderId);
         if (orderDateStartTime != null)
             map.put("order_date_start_time", new Date(orderDateStartTime));
         if (orderDateEndTime != null)

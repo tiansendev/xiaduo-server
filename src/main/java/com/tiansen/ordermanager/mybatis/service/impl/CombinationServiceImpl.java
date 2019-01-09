@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tiansen.ordermanager.mybatis.entity.Combination;
 import com.tiansen.ordermanager.mybatis.entity.ProductDefinition;
-import com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDetail;
+import com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDefInfo;
 import com.tiansen.ordermanager.common.util.SortProcessor;
 import com.tiansen.ordermanager.mybatis.mapper.CombinationMapper;
 import com.tiansen.ordermanager.mybatis.mapper.ProductDefinitionMapper;
@@ -54,7 +54,7 @@ public class CombinationServiceImpl extends ServiceImpl<CombinationMapper, Combi
     }
 
     @Override
-    public IPage<CombinationDetail> findByCondByPage(String name, String prodName, String patternName,  Pageable pageable) {
+    public IPage<CombinationDefInfo> findByCondByPage(String name, String prodName, String patternName, Pageable pageable) {
         Map<String, Object> condMap = new HashMap<>();
         if (StringUtils.isNotBlank(name)) {
             condMap.put(Combination.COMB_NAME, name);
@@ -69,14 +69,14 @@ public class CombinationServiceImpl extends ServiceImpl<CombinationMapper, Combi
         Page<Combination> page = new Page<>(pageable.getPageNumber(), pageable.getPageSize());
         SortProcessor.process(page, pageable);
 
-        Page<CombinationDetail> detailByCondMap = combinationMapper.findDetailByCondMap(page,condMap);
+        Page<CombinationDefInfo> detailByCondMap = combinationMapper.findDetailByCondMap(page,condMap);
 
         return detailByCondMap;
     }
 
     @Override
     public Combination findDetailById(Integer id) {
-        CombinationDetail detail =  combinationMapper.findDetailById(id);
+        CombinationDefInfo detail =  combinationMapper.findDetailById(id);
         return detail;
     }
 

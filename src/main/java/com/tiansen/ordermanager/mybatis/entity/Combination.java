@@ -32,6 +32,11 @@ public class Combination extends Model<Combination> {
      */
     private String combName;
 
+    /**
+     * 申请人（客户）id
+     */
+    private Integer proposerId;
+
     private String combRemark;
 
     private Integer creatorId;
@@ -44,6 +49,8 @@ public class Combination extends Model<Combination> {
     public static final String ID = "id";
 
     public static final String COMB_NAME = "comb_name";
+
+    public static final String PROPOSER_ID = "proposer_id";
 
     public static final String PROD_DEF_IDS = "prod_def_ids";
 

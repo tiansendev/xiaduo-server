@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class ProductDetail extends Model<ProductDetail> {
+public class ProductDetailInStore extends Model<ProductDetailInStore> {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,11 +52,14 @@ public class ProductDetail extends Model<ProductDetail> {
      * 库位
      */
     private String storeLoc;
-
     /**
      * 订单id
      */
     private Integer orderId;
+    /**
+     * 组合详情id
+     */
+    private Integer combDetailId;
 
     private Double salePrice;
 
@@ -82,6 +85,8 @@ public class ProductDetail extends Model<ProductDetail> {
     public static final String STORE_ID = "store_id";
 
     public static final String ORDER_ID = "order_id";
+
+    public static final String COMB_DETAIL_ID = "comb_detail_id";
 
     public static final String SALE_PRICE = "sale_price";
 

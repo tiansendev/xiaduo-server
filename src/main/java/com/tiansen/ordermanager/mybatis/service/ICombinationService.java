@@ -3,7 +3,7 @@ package com.tiansen.ordermanager.mybatis.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tiansen.ordermanager.mybatis.entity.Combination;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDetail;
+import com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDefInfo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -21,7 +21,7 @@ public interface ICombinationService extends IService<Combination> {
 
     List<Combination> findByCond(String name, String prodName, Sort sort);
 
-    IPage<CombinationDetail> findByCondByPage(String name, String prodName, String patternName,  Pageable pageable);
+    IPage<CombinationDefInfo> findByCondByPage(String name, String prodName, String patternName, Pageable pageable);
 
     Combination findDetailById(Integer id);
 }

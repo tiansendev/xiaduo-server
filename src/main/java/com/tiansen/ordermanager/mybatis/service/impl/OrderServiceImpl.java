@@ -7,6 +7,12 @@ import com.tiansen.ordermanager.common.util.PoiUtils;
 import com.tiansen.ordermanager.exception.BusinessException;
 import com.tiansen.ordermanager.exception.ParameterIllegalException;
 import com.tiansen.ordermanager.mybatis.entity.*;
+import com.tiansen.ordermanager.mybatis.entity.emun.ProductStatusEmun;
+import com.tiansen.ordermanager.mybatis.entity.emun.PropPropertyEmun;
+import com.tiansen.ordermanager.mybatis.entity.join.combination.CombinationDefInfo;
+import com.tiansen.ordermanager.mybatis.entity.join.combination.ProductDefTotalNumberOfOrder;
+import com.tiansen.ordermanager.mybatis.entity.join.combination.ProductDefinitionInfoInCombination;
+import com.tiansen.ordermanager.mybatis.entity.join.order.OrderCombInfo;
 import com.tiansen.ordermanager.mybatis.entity.join.order.OrderReq;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
 import com.tiansen.ordermanager.mybatis.mapper.*;
@@ -55,7 +61,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private CombinationMapper combinationMapper;
 
     @Autowired
-    private ProductDetailMapper productDetailMapper;
+    private ProductDetailInStoreMapper productDetailInStoreMapper;
+
+    @Autowired
+    private ProductDetailOutStoreMapper productDetailOutStoreMapper;
 
     @Autowired
     private ProposerMapper proposerMapper;
@@ -65,6 +74,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private CombinationDetailMapper combinationDetailMapper;
 
     @Override
     @Transactional(rollbackFor = BusinessException.class)
@@ -114,7 +126,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         List<Combination> combinations = new ArrayList<>();
         List<Order> orders = new ArrayList<>();
-        List<ProductDetail> productDetails = new ArrayList<>();
+        List<ProductDetailInStore> productDetails = new ArrayList<>();
         List<ProductDefinition> productDefinitions = new ArrayList<>();
         List<Express> expresses = new ArrayList<>();
         for(int i=1;i<list.size();i++){
@@ -134,7 +146,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 throw new ParameterIllegalException("第"+j+"行 明细产品不能为空");
             }
             List<String> prodNames = Arrays.asList(combProdDetails.split("\n"));
-//            List<Product> prods = productDetailMapper.selectList(
+//            List<Product> prods = productDetailInStoreMapper.selectList(
 //                    new QueryWrapper<Product>()
 //                            .in(Product.PROD_NAME, prodNames)
 //            );
@@ -325,18 +337,205 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 //        }
     }
 
+    @Autowired
+    private ProductDefinitionMapper productDefinitionMapper;
+
+    @Autowired
+    private OrderExpressMapper orderExpressMapper;
+
+
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addOrder(OrderReq orderReq) {
         if (orderReq == null) {
             throw new ParameterIllegalException();
         }
-        List<Integer> combIds = orderReq.getCombIds();
-        List<Integer> consumIds = orderReq.getConsumIds();
-        Express express = orderReq.getExpress();
-        if (combIds != null ) {
-            // 组合信息
+
+        // 申请人
+        Integer proposerId = orderReq.getProposerId();
+        String proposer = orderReq.getProposer();
+        if (proposerId != null) {
+            orderReq.setProposerId(proposerId);
+        } else {
+            if (proposer == null)
+                throw new ParameterIllegalException("申请人为空");
+            // 根据名称查找申请人
+            Proposer p = proposerMapper.selectOne(new QueryWrapper<Proposer>()
+                    .eq(Proposer.PROP_NAME, proposer));
+            if (p == null){
+                // 插入
+                p = new Proposer();
+                p.setPropProperty(PropPropertyEmun.PROPERTY_PERSON.getIndex())
+                        .setPropName(proposer);
+                CreateFieldFill.fill(p);
+                proposerMapper.insert(p);
+            }
+            orderReq.setProposerId(p.getId());
         }
+
+        // 生成订单
+        CreateFieldFill.fill(orderReq);
+        save(orderReq);
+
+        // 产品定义
+        List<ProductDefTotalNumberOfOrder> prodDefIdNumbers = orderReq.getProdDefIdNumbers();
+        handleProducts(orderReq, prodDefIdNumbers);
+
+        // 组合
+        List<OrderCombInfo> combInfos = orderReq.getCombInfos();
+        handleCombination(orderReq, combInfos);
+
+        // 快递
+        Express express = orderReq.getExpress();
+        handleExpress(orderReq, express);
+    }
+
+    /**
+     * 处理快递信息
+     * @param orderReq
+     * @param express
+     */
+    private void handleExpress(OrderReq orderReq, Express express) {
+        if (express != null) {
+            if (StringUtils.isAnyBlank(express.getExpRecipient(), express.getExpAddress(),
+                    express.getExpMobile(), express.getExpCompany(), express.getExpOrderCode())) {
+                throw new ParameterIllegalException("快递信息不全");
+            }
+            // 插入中间表
+            OrderExpress orderExpress = new OrderExpress();
+            orderExpress.setExpId(express.getId())
+                    .setOdId(orderReq.getId());
+            CreateFieldFill.fill(orderExpress);
+            orderExpressMapper.insert(orderExpress);
+            orderReq.setExpress(express);
+        }
+    }
+
+    /**
+     * 处理产品信息
+     * @param orderReq
+     * @param prodDefIdNumbers
+     */
+    private void handleProducts(OrderReq orderReq, List<ProductDefTotalNumberOfOrder> prodDefIdNumbers) {
+        if (prodDefIdNumbers != null && prodDefIdNumbers.size() > 0) {
+            // 该订单不是组合产品
+            List<ProductDetailOutStore> outStores = new ArrayList<>();
+            for (ProductDefTotalNumberOfOrder prodDefNumber : prodDefIdNumbers) {
+                Integer totalNumber = prodDefNumber.getTotalNumber();
+                for (int i = 0; i < totalNumber; i++) {
+                    // 出库产品
+                    ProductDetailOutStore outStore = new ProductDetailOutStore();
+                    outStore.setPddefId(prodDefNumber.getId())
+                            // TODO: 2019/1/6 默认是产品定义里得价格
+                            .setSalePrice(prodDefNumber.getProdDefSalePrice())
+                            .setOrderId(orderReq.getId());
+                    CreateFieldFill.fill(outStore);
+                    outStores.add(outStore);
+                }
+            }
+            transferProdsFromInStoreToOutStore(prodDefIdNumbers, outStores);
+        }
+    }
+
+    /**
+     * 拆解组合，新增出库产品
+     * @param orderReq
+     * @param combInfos
+     */
+    private void handleCombination(OrderReq orderReq, List<OrderCombInfo> combInfos) {
+        if (combInfos != null && combInfos.size() != 0) {
+            List<Integer> combIds = new ArrayList<>();
+            for (OrderCombInfo combInfo: combInfos) {
+                if (combInfo == null || combInfo.getCombDefId() == null || combInfo.getCombNumber() == null)
+                    throw new ParameterIllegalException("组合id或者组合数量为空");
+                combIds.add(combInfo.getCombDefId());
+            }
+            // 获取组合定义对应的产品定义信息
+            List<CombinationDefInfo> combDefInfos = combinationMapper.findDetailByCombIds(combIds);
+            // 预期所查询的combIds都存在
+            if (combDefInfos == null || combDefInfos.size() != combIds.size())
+                throw new ParameterIllegalException("组合id有误");
+            // 更新组合详情表
+            List<CombinationDetail> newCombDetails = new ArrayList<>();
+            for (CombinationDefInfo info : combDefInfos) {
+                CombinationDetail detail = new CombinationDetail();
+                detail.setCombId(info.getId())
+//                        .setCombSalePrice()
+                        .setOdId(orderReq.getId());
+                newCombDetails.add(detail);
+                CreateFieldFill.fill(detail);
+
+            }
+            combinationDetailMapper.saveBatch(newCombDetails);
+
+//            int newProdNum = 0; // 需要新增的产品数量
+            // 每个产品定义对应的产品总数量
+            List<ProductDefTotalNumberOfOrder> productDefIdNumbers = new ArrayList<>();
+            List<ProductDetailOutStore> outStores = new ArrayList<>();
+            for (int i = 0; i < newCombDetails.size(); i++) {
+                CombinationDetail combDetail = newCombDetails.get(i);
+                // 组合详情id
+                Integer combDetailId = combDetail.getId();
+
+                // 组合中定义的产品定义信息：3盒红枣1盒清润
+                CombinationDefInfo combDefInfo = combDefInfos.get(i);
+                List<ProductDefinitionInfoInCombination> productDefinitions = combDefInfo.getProductDefinitions();
+                for (ProductDefinitionInfoInCombination pdic : productDefinitions) {
+                    // 出库产品
+                    ProductDetailOutStore outStore = new ProductDetailOutStore();
+                    outStore.setCombDetailId(combDetailId)
+                            .setPddefId(pdic.getId())
+                            // TODO: 2019/1/6 默认是产品定义里得价格
+                            .setSalePrice(pdic.getProdDefSalePrice())
+                            .setOrderId(orderReq.getId());
+                    CreateFieldFill.fill(outStore);
+                    outStores.add(outStore);
+
+                    // 每个产品定义对应的产品总数累加
+                    ProductDefTotalNumberOfOrder pdtn = new ProductDefTotalNumberOfOrder();
+                    pdtn.setId(pdic.getId());
+                    pdtn.setTotalNumber(pdic.getProdNum());
+                    if (productDefIdNumbers.contains(pdtn)) {
+                        ProductDefTotalNumberOfOrder p = productDefIdNumbers.get(productDefIdNumbers.indexOf(pdtn));
+                        p.setTotalNumber(p.getTotalNumber() + pdic.getProdNum());
+                    } else {
+                        productDefIdNumbers.add(pdtn);
+                    }
+                }
+            }
+            transferProdsFromInStoreToOutStore(productDefIdNumbers, outStores);
+
+        }
+    }
+
+    /**
+     * 从在库产品中取出制定产品定义的产品，放入出库产品中
+     * @param productDefIdNumbers 封装了productDefId、number
+     * @param outStores
+     */
+    private void transferProdsFromInStoreToOutStore(List<ProductDefTotalNumberOfOrder> productDefIdNumbers, List<ProductDetailOutStore> outStores) {
+        // 查找所有在库的产品
+        List<ProductDetailInStore> instores = productDetailInStoreMapper.findDetailsByProductDefNumbers(productDefIdNumbers);
+        List<Integer> delInstoreIds = new ArrayList<>();
+        for (ProductDetailInStore instore : instores) {
+            for (ProductDetailOutStore outstore : outStores) {
+                if (instore.getPddefId() != outstore.getPddefId())
+                    continue;
+                // copy产品原有属性
+                outstore.setProdStatus(ProductStatusEmun.OUT_STORE.getIndex())
+                        .setPurId(instore.getPurId())
+                        .setPurPrice(instore.getPurPrice())
+                        .setStoreId(instore.getStoreId())
+                        .setStoreLoc(instore.getStoreLoc())
+                        .setProdRemark(instore.getProdRemark());
+                delInstoreIds.add(instore.getId());
+            }
+        }
+        // 批量插入出库产品
+        productDetailOutStoreMapper.insertBatch(outStores);
+        // 批量删除添加成功的产品
+        productDetailInStoreMapper.deleteBatchIds(delInstoreIds);
     }
 
     /**

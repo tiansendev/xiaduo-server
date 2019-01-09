@@ -24,7 +24,7 @@ import java.util.List;
 public class MysqlGenerator {
     public final static String[] allTables=new String[]{/*"sys_access","sys_menu","sys_role","sys_role_access","sys_user","sys_user_role",*/
            /*"consumable_definition","consumable_detail","combination","express","order","proposer", "purchase","store","supplier","product_detail","product_definition"*/
-    /*"order_express","order_combination", "order_consumable"*/"combination_product_def"};
+    /*"order_express","order_combination", "order_consumable"*/"product_detail_out_store"};
 
     /**
      * RUN THIS
@@ -68,7 +68,7 @@ public class MysqlGenerator {
         PackageConfig pc = new PackageConfig();
 //        pc.setModuleName(scanner("mybatis"));
         pc.setParent("com.tiansen.ordermanager");
-        pc.setController("controller");
+//        pc.setController("controller");
         pc.setEntity("mybatis.entity");
         pc.setMapper("mybatis.mapper");
         pc.setService("mybatis.service");
@@ -92,7 +92,7 @@ public class MysqlGenerator {
         });
         cfg.setFileOutConfigList(focList);
         TemplateConfig templateConfig = new TemplateConfig();
-//        templateConfig.setController(null);//不生成Controller
+        templateConfig.setController(null);//不生成Controller
         // tc.setController("...");
 //        templateConfig.setEntity("...");
         // tc.setMapper("...");

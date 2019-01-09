@@ -2,14 +2,14 @@ package com.tiansen.ordermanager.mybatis.service.impl;
 
 import com.tiansen.ordermanager.common.util.RylaiRandom;
 import com.tiansen.ordermanager.exception.ParameterIllegalException;
-import com.tiansen.ordermanager.mybatis.entity.ProductDetail;
+import com.tiansen.ordermanager.mybatis.entity.ProductDetailInStore;
 import com.tiansen.ordermanager.mybatis.entity.Purchase;
 import com.tiansen.ordermanager.mybatis.entity.emun.ProductStatusEmun;
 import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseDetail;
 import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseInfo;
 import com.tiansen.ordermanager.mybatis.entity.join.purchase.PurchaseReq;
 import com.tiansen.ordermanager.mybatis.fill.CreateFieldFill;
-import com.tiansen.ordermanager.mybatis.mapper.ProductDetailMapper;
+import com.tiansen.ordermanager.mybatis.mapper.ProductDetailInStoreMapper;
 import com.tiansen.ordermanager.mybatis.mapper.PurchaseMapper;
 import com.tiansen.ordermanager.mybatis.service.IPurchaseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -36,7 +36,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> i
     private PurchaseMapper purchaseMapper;
 
     @Autowired
-    private ProductDetailMapper productDetailMapper;
+    private ProductDetailInStoreMapper productDetailInStoreMapper;
 
     @Override
     public PurchaseDetail getDetailById(Integer id) {
@@ -58,7 +58,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> i
         save(purchaseReq);
 
         Double totalPrice = 0d;
-        List<ProductDetail> productDetails = new ArrayList<>();
+        List<ProductDetailInStore> productDetailsInstore = new ArrayList<>();
         for (PurchaseInfo info : purchaseDetailInfos) {
             Integer prodDefId = info.getProdDefId();
             Double purPrice = info.getPurPrice();
@@ -82,21 +82,21 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> i
             totalPrice += purPrice * purNum;
             // 产品信息
             for (int i = 0; i< purNum; i++) {
-                ProductDetail productDetail = new ProductDetail();
-                productDetail.setProdStatus(ProductStatusEmun.IN_STORE.getIndex())
+                ProductDetailInStore productDetailInStore = new ProductDetailInStore();
+                productDetailInStore.setProdStatus(ProductStatusEmun.IN_STORE.getIndex())
                         .setPddefId(prodDefId)
                         .setPurId(purchaseReq.getId())
                         .setPurPrice(purPrice)
                         .setStoreId(storeId)
                         .setStoreLoc(storeLoc);
-                productDetails.add(productDetail);
-                CreateFieldFill.fill(productDetail);
+                productDetailsInstore.add(productDetailInStore);
+                CreateFieldFill.fill(productDetailInStore);
             }
         }
         purchaseReq.setPurTotalMoney(totalPrice);
         // 更新价格
         purchaseReq.updateById();
         // 保存产品信息
-        productDetailMapper.insertBatch(productDetails);
+        productDetailInStoreMapper.insertBatch(productDetailsInstore);
     }
 }

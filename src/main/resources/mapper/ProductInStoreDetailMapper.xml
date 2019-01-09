@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.ProductDetailMapper">
+<mapper namespace="com.tiansen.ordermanager.mybatis.mapper.ProductDetailInStoreMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.ProductDetail">
+    <resultMap id="BaseResultMap" type="com.tiansen.ordermanager.mybatis.entity.ProductDetailInStore">
         <id column="id" property="id" />
-        <!--<result column="pddef_id" property="pddefId" />-->
+        <result column="pddef_id" property="pddefId" />
         <result column="prod_status" property="prodStatus" />
-        <!--<result column="pur_id" property="purId" />-->
+        <result column="pur_id" property="purId" />
         <result column="pur_price" property="purPrice" />
-        <!--<result column="store_id" property="storeId" />-->
-        <!--<result column="order_id" property="orderId" />-->
+        <result column="store_id" property="storeId" />
+        <result column="order_id" property="orderId" />
+        <result column="combDetailId" property="comb_detail_id" />
         <result column="sale_price" property="salePrice" />
         <result column="store_loc" property="storeLoc" />
         <result column="creator_id" property="creatorId" />
@@ -19,7 +20,7 @@
         <result column="update_date" property="updateDate" />
     </resultMap>
 
-    <resultMap id="ProductDetailInfoMap" type="com.tiansen.ordermanager.mybatis.entity.join.product.ProductDetailInfo" extends="BaseResultMap">
+    <resultMap id="ProductDetailInfoMap" type="com.tiansen.ordermanager.mybatis.entity.join.product.ProductDetailInStoreInfo" extends="BaseResultMap">
         <association property="productDefinition" javaType="com.tiansen.ordermanager.mybatis.entity.ProductDefinition">
             <id column="pdfid" property="id" />
             <result column="prod_def_name" property="prodDefName" />
@@ -63,7 +64,7 @@
         pur.id AS purid, pur.supplier_id, pur.pur_total_money, pur.pur_date, pur.pur_remark,pur.pur_code,
         st.id AS storeid, st.sto_locations, st.sto_address, st.sto_manangers, st.sto_remark,
         od.id AS orderid, od.od_date, od.od_box_num, od.prop_id, od.od_remark
-        FROM product_detail prod
+        FROM product_detail_in_store prod
         LEFT JOIN product_definition pdf ON pdf.id=prod.pddef_id
         LEFT JOIN purchase pur ON pur.id=prod.pur_id
         LEFT JOIN store st ON st.id=prod.store_id
@@ -99,8 +100,14 @@
 
     </select>
 
+    <select id="findDetailsByProductDefNumbers" resultMap="BaseResultMap">
+        <foreach collection="list" item="item" separator="UNION ALL">
+            (SELECT * FROM product_detail_in_store WHERE pddef_id=#{item.prodDefId} LIMIT #{item.totalNumber})
+        </foreach>
+    </select>
+
     <insert id="insertBatch">
-        INSERT INTO product_detail(pddef_id, prod_status, pur_id, pur_price, store_id, store_loc, order_id, sale_price, creator_id, prod_remark, create_date)
+        INSERT INTO product_detail_in_store(pddef_id, prod_status, pur_id, pur_price, store_id, store_loc, order_id, sale_price, creator_id, prod_remark, create_date)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (
