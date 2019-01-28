@@ -220,7 +220,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 Map<String, Object> map = new HashMap<>();
 //                if (ma)
 
-
                 String address = row.get(EXP_ADDRESS_INDEX) == null ? null :  String.valueOf(row.get(EXP_ADDRESS_INDEX)); // 收件地址
                 String company = row.get(EXP_COMPANY_INDEX) == null ? null : String.valueOf(row.get(EXP_COMPANY_INDEX)); // 快递公司
                 String discripiton = row.get(EXP_DISCRIPTION_INDEX) == null ? null : String.valueOf(row.get(EXP_DISCRIPTION_INDEX)); // 描述

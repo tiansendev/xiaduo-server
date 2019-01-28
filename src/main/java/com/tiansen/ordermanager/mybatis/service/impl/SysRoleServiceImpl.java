@@ -231,7 +231,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
             // 删除
             if (removeIds.size() > 0)
-                sysRoleAccessMapper.delete(new QueryWrapper<SysRoleAccess>().in(SysRoleAccess.ACCESS_ID, removeIds));
+                sysRoleAccessMapper.delete(
+                        new QueryWrapper<SysRoleAccess>()
+                                .eq(SysRoleAccess.ROLE_ID, sysRole.getId())
+                                .in(SysRoleAccess.ACCESS_ID, removeIds)
+                );
         }
     }
 
